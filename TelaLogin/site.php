@@ -1,0 +1,4 @@
+<?php
+
+echo "bem vindo";
+?>

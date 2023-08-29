@@ -1,0 +1,17 @@
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>    
+
+<title>Login</title></head>
+<link rel="stylesheet" type="text/css" href="CSS/Estilo2.css">
+<body>
+<h1>Entrar</h1>
+<form method=POST action="processa.php">
+<strong>Nome: <input type ="text" placeholder="Usuário" name ="caixa1"></strong>
+<strong>CPF: <input type = "text" placeholder="Senha" name = "caixa2" ></strong>
+<input type="submit" value = "ACESSAR ">
+<a href="">Ainda não possui conta?<strong>Cadastre-se</strong></a>
+
+        </form>
+</body>
+</html>
