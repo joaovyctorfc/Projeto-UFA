@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Tempo de geração: 01/09/2023 às 23:53
+-- Tempo de geração: 02/09/2023 às 00:04
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -65,8 +65,7 @@ CREATE TABLE `videos` (
 --
 
 INSERT INTO `videos` (`email`, `id`, `video_url`) VALUES
-('brenobastos11-crz@outlook.com', 26, 'video-64ed3c938218e6.06262192.mp4'),
-('brenobastos11-crz@outlook.com', 27, 'video-64f25cd0b2cb63.98592115.mp4');
+('brenobastos11-crz@outlook.com', 26, 'video-64ed3c938218e6.06262192.mp4');
 
 --
 -- Índices para tabelas despejadas
