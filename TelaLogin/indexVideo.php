@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilo.css/estilo2.css">
+    <link rel="stylesheet" href="estilo.css/estilo1.css">
     <title>Visualização</title>
     <h1>Seus vídeos</h1><br>
     <style>
@@ -22,6 +22,7 @@
 </head>
 <body>
     <form action="Video.php" method="post">
+  
         <div class="alb">
             <?php
             include "config.php";
@@ -38,6 +39,7 @@
                         <?php
                     }
                 } else {
+
                     echo "<h1>Nenhum vídeo encontrado para este usuário.</h1>";
                 }
             } else {
