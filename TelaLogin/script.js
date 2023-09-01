@@ -1,32 +1,39 @@
 let h2 = document.querySelector('h2');
-var map;
+let map;
 
-function success(pos){
-console.log(pos);
-h2.textContent = `latidude:${pos.coords.latitude}, longitude:${pos.coords.longitude}`
+function initializeMap(latitude, longitude) {
+    if (map) {
+        map.remove();
+    }
+    map = L.map('map').setView([latitude, longitude], 13);
 
-if (map == undefined){
-    map = L.map('map').setView([pos.coords.latitude, pos.coords.longitude], 13);
-}
-else{
-    map.remove();
-    map = L.map('map').setView([pos.coords.latitude, pos.coords.longitude], 13);
-}
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map)
-    .bindPopup('Sua localização  está aqui')
-    .openPopup();uta 
+    L.marker([latitude, longitude]).addTo(map)
+        .bindPopup('Sua localização está aqui')
+        .openPopup();
 }
 
-function error(error){
+function updateLocation(pos) {
+    console.log(pos);
+    h2.textContent = `Latitude: ${pos.coords.latitude}, Longitude: ${pos.coords.longitude}`;
+
+    if (!map) {
+        initializeMap(pos.coords.latitude, pos.coords.longitude);
+    }
+}
+
+function handleGeolocationSuccess(pos) {
+    updateLocation(pos);
+}
+
+function handleGeolocationError(error) {
     console.log(error);
 }
 
-var watchID = navigator.geolocation.getCurrentPosition(success, error, {
+navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, {
     enableHighAccuracy: true,
     timeout: 5000
 });

@@ -12,6 +12,7 @@
  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
  crossorigin=""></script>
     <title>mapa</title>
+
     <style> 
     #map { height: 300px; width: 50%;}
     </style>
@@ -28,7 +29,7 @@
     <script src="./script.js"></script> 
     <script>
         function voltarParaLogin() {
-            window.location.href = "indexlogin.php"; 
+            window.location.href = "indexLogin.php"; 
         }
         function CarregarVideo() {
             window.location.href = "indexVideo.php"; 
