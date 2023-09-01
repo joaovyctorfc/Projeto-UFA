@@ -5,7 +5,7 @@ function initializeMap(latitude, longitude) {
     if (map) {
         map.remove();
     }
-    map = L.map('map').setView([latitude, longitude], 13);
+    map = L.map('map').setView([latitude, longitude], 1000);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
