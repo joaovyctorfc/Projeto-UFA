@@ -21,7 +21,7 @@ if (isset($_POST['upload']) && isset($_FILES['video'])) {
                 $email = $_SESSION['user_email'];
                 $sql = "INSERT INTO videos (email, video_url) VALUES ('$email', '$new_video_nome')";
                 mysqli_query($conn, $sql);
-                header("Location: indexVideo.php");
+                header("Location: iVideo.php");
                 exit;
             } else {
                 $em = "Erro: Usuário não autenticado.";
