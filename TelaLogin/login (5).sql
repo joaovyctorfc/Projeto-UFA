@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Tempo de geração: 02/09/2023 às 00:04
+-- Tempo de geração: 06/09/2023 às 22:15
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -59,13 +59,6 @@ CREATE TABLE `videos` (
   `id` int(11) NOT NULL,
   `video_url` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `videos`
---
-
-INSERT INTO `videos` (`email`, `id`, `video_url`) VALUES
-('brenobastos11-crz@outlook.com', 26, 'video-64ed3c938218e6.06262192.mp4');
 
 --
 -- Índices para tabelas despejadas
