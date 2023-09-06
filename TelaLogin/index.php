@@ -1,39 +1,56 @@
+<?php
+require_once "config.php";
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+    $sql = "SELECT id, senha FROM usuario WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+
+        if (password_verify($senha, $row['senha'])) {
+            session_start();
+            $_SESSION['user_email'] = $email; 
+            header("Location: Localizacao.php"); 
+            exit();
+        } else {
+            $message = "Senha incorreta.";
+        }
+   
+    } else {
+        $message = "Usuário não encontrado.";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-   crossorigin=""/>
-   <!-- Make sure you put this AFTER Leaflet's CSS -->
- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
- integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
- crossorigin=""></script>
-    <title>mapa</title>
-
-    <style> 
-    #map { height: 300px; width: 50%;}
-    </style>
+    <title>Login</title>
+    <link rel="stylesheet" href="estilo.css/estilo1.css"> 
 </head>
 <body>
-    <h1> Sua localização é:</h1>
-    <h2></h2>
-    <div id="map"></div>
-    <?php
-    if (isset($_GET['login']) ) {}
-    ?>
-    <button onclick="voltarParaLogin()">Sair</button>
-    <button onclick="CarregarVideo()">Video</button>
-    <script src="./script.js"></script> 
-    <script>
-        function voltarParaLogin() {
-            window.location.href = "indexLogin.php"; 
-        }
-        function CarregarVideo() {
-            window.location.href = "indexVideo.php"; 
-        }
-    </script>
+    <h1>Login</h1><br>
+    <?php if (!empty($error)) { echo "<p>$error</p>"; } ?>
+
+    <form method="post" action="index.php">
+        E-mail: <input type="text" name="email" required><br>
+        Senha: <input type="password" name="senha" required><br>
+        <input type="submit" value="Login">
+    </form>
+    <br>
+    <a href="cadastrar.php">Ainda não é cadastrado?</a>
+    <p><?php echo $message; ?></p>
+
 </body>
 </html>
+

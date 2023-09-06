@@ -14,7 +14,7 @@
         <input type="submit" value="Cadastrar">
     </form>
     <br>
-    <a href="indexLogin.php">Faça Login</a>
+    <a href="index.php">Faça Login</a>
 
     <?php
     require_once "config.php";

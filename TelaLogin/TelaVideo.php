@@ -31,6 +31,7 @@
                 $loggedInEmail = $_SESSION['user_email'];
                 $sql = "SELECT * FROM videos WHERE email = '$loggedInEmail' ORDER BY id DESC";
                 $res = mysqli_query($conn, $sql);
+                echo"$loggedInEmail";
                 if (mysqli_num_rows($res) > 0) {
                     while ($videos = mysqli_fetch_assoc($res)) {
                         ?>
