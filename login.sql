@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Tempo de geração: 06/09/2023 às 23:15
+-- Host: localhost
+-- Tempo de geração: 21/09/2023 às 15:16
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -65,10 +65,7 @@ CREATE TABLE `videos` (
 --
 
 INSERT INTO `videos` (`email`, `id`, `video_url`) VALUES
-('brenobastos11-crz@outlook.com', 29, 'video-64f8e9c4808e42.51469813.mp4'),
-('vanderlei@outlook.com', 30, 'video-64f8e9ee5ca2b4.20840557.mp4'),
-('brenobastos11-crz@gmail.com.br', 31, 'video-64f8eb49399239.19217420.mp4'),
-('brenobastos11-crz@gmail.com.br', 32, 'video-64f8eb755b19e3.40198927.mp4');
+('brenobastos11-crz@outlook.com', 36, 'video-650c41c5173e26.20013829.mp4');
 
 --
 -- Índices para tabelas despejadas
@@ -94,13 +91,13 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
