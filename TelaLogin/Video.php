@@ -13,6 +13,7 @@
     <form action="view.php" method= "POST" enctype="multipart/form-data">
     <input type="file" name="video">
     <input type="submit" name="upload" value="upload">
+    <button type="button" onclick="window.location.href = 'TelaVideo.php';">Voltar </button> 
     </form>
 </body>
 </html>

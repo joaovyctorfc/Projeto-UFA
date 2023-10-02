@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilo.css/estilo1.css">
     <title>Visualização</title>
-    <h1>Seus vídeos</h1><br>
     <style>
         body{
             display: flex;
@@ -22,7 +21,7 @@
 </head>
 <body>
     <form action="Video.php" method="post">
-  
+        <h1>Seus vídeos</h1><br>
         <div class="alb">
             <?php
             include "config.php";
@@ -34,11 +33,13 @@
                 if (mysqli_num_rows($res) > 0) {
                     while ($videos = mysqli_fetch_assoc($res)) {
                         ?>
-                        <video src="uploads/<?= $videos['video_url'] ?>" controls></video>
+                        <label>
+                            <input type="checkbox" name="selected_videos[]" value="<?= $videos['id'] ?>">
+                            <video src="uploads/<?= $videos['video_url'] ?>" controls></video>
+                        </label>
                         <?php
                     }
                 } else {
-
                     echo "<h1>Nenhum vídeo encontrado para este usuário.</h1>";
                 }
             } else {
@@ -47,8 +48,8 @@
             ?>
         </div>
         <input type="submit" name="upload" value="Upload">
-        
-    </form>
+        <button type="button" onclick="window.location.href = 'Localizacao.php';">Voltar </button>  </form>
 </body>
 </html>
+
 
