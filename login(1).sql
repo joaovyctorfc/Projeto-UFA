@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 03/10/2023 às 22:18
+-- Tempo de geração: 05/10/2023 às 14:06
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -70,7 +70,9 @@ INSERT INTO `videos` (`email`, `id`, `video_url`) VALUES
 ('brenobastos11-crz@outlook.com', 38, 'video-651b2602987bf8.96622783.mp4'),
 ('brenobastos11-crz@outlook.com', 39, 'video-651c0a06b1d922.36689626.mp4'),
 ('brenobastos11-crz@gmail.com.br', 40, 'video-651c7604d89e50.02550786.mp4'),
-('brenobastos11-crz@gmail.com.br', 41, 'video-651c76bc8f00b3.92958948.mp4');
+('brenobastos11-crz@gmail.com.br', 41, 'video-651c76bc8f00b3.92958948.mp4'),
+('brenobastos11-crz@outlook.com', 42, 'video-651ea5017dcf17.60075038.mp4'),
+('brenobastos11-crz@outlook.com', 43, 'video-651ea59a7d6425.22065616.mp4');
 
 --
 -- Índices para tabelas despejadas
@@ -102,7 +104,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
