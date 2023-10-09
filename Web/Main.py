@@ -1,11 +1,12 @@
 from flask import Flask, request, render_template, redirect, flash
 import requests
 import json
+from Cadastrar import cadastrar  # Importe a função cadastrar
 
 app = Flask(__name__)
+app.secret_key = 'sua_chave_secreta_aqui'
 
-link = "https://projeto-drone-default-rtdb.firebaseio.com"
-
+link = "https://projeto-drone-default-rtdb.firebaseio.com/"
 @app.route('/')
 def home():
     return render_template('login.html')
@@ -33,8 +34,11 @@ def login():
         flash('Preencha todos os campos')
         return redirect('/')
     #Chamar função Cadastro do banco de Dados
-@app.route('/cadastrar')
-def cadastrar():
-    return (render_template('cadastrar.html'))
+@app.route('/cadastrar', methods=['GET', 'POST'])
+def cadastrar_rota():
+    return cadastrar()  
+#############################
+
+
 if __name__ == "__main__":
     app.run(debug=True)
