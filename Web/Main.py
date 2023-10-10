@@ -1,11 +1,11 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
 from Cadastrar import cadastrar  # Importe a função cadastrar
-
+from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'
-
+bcrypt = Bcrypt(app)
 link = "https://projeto-drone-default-rtdb.firebaseio.com/"
 @app.route('/')
 def home():
@@ -15,28 +15,34 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
-    email = request.form.get('email')
-    senha = request.form.get('senha')
+    if request.method == 'POST':
+        email = request.form.get('email')
+        senha = request.form.get('senha')
 
-    if email and senha:
+        # Recupere a senha criptografada do Firebase com base no e-mail
         response = requests.get(f'{link}/users.json')
-        usuarios = response.json()
-        
-        if usuarios:
-            for usuario_id, dados in usuarios.items():
-                if dados.get('email') == email and dados.get('senha') == senha:
-                    print(f"Usuário logado: {email}")
-                    return render_template('usuario.html')
+        data = response.json()
 
-        flash('Credenciais de login incorretas')
-        return redirect('/')
-    else:
-        flash('Preencha todos os campos')
-        return redirect('/')
+        if data:
+            usuario = next((user for user in data.values() if user['email'] == email), None)
+            if usuario:
+                senha_criptografada = usuario['senha']
+
+                # Verifique se a senha fornecida corresponde à senha criptografada
+                if bcrypt.check_password_hash(senha_criptografada, senha):
+                    # Login bem-sucedido, inicie a sessão
+                    session['logged_in'] = True
+                    return render_template('usuario.html')
+                else:
+                    flash('Senha incorreta. Tente novamente.')
+            else:
+                flash('E-mail não encontrado. Verifique seu e-mail.')
+        else:
+            flash('Nenhum usuário cadastrado.')
     #Chamar função Cadastro do banco de Dados
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar_rota():
-    return cadastrar()  
+    return cadastrar()
 #############################
 
 
