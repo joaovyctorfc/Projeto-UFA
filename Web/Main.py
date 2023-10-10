@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
-from Cadastrar import cadastrar  # Importe a função cadastrar
+from Cadastrar import cadastrar 
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'
@@ -19,7 +19,6 @@ def login():
         email = request.form.get('email')
         senha = request.form.get('senha')
 
-        # Recupere a senha criptografada do Firebase com base no e-mail
         response = requests.get(f'{link}/users.json')
         data = response.json()
 
@@ -28,17 +27,19 @@ def login():
             if usuario:
                 senha_criptografada = usuario['senha']
 
-                # Verifique se a senha fornecida corresponde à senha criptografada
                 if bcrypt.check_password_hash(senha_criptografada, senha):
-                    # Login bem-sucedido, inicie a sessão
                     session['logged_in'] = True
-                    return render_template('usuario.html')
+                    return render_template('/usuario.html')
                 else:
-                    flash('Senha incorreta. Tente novamente.')
+                    flash('Senha incorreta.')
+                    return redirect('/')  
             else:
-                flash('E-mail não encontrado. Verifique seu e-mail.')
+                flash('E-mail não encontrado. ')
+                return redirect('/') 
         else:
             flash('Nenhum usuário cadastrado.')
+            return redirect('/') 
+    return redirect('/')
     #Chamar função Cadastro do banco de Dados
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar_rota():
