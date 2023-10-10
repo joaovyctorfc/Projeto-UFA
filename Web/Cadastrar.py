@@ -19,7 +19,7 @@ def cadastrar():
         senha = request.form.get('senha')
 
         if not nome or not email or not senha:
-            flash('Preencha todos os campos.')
+            flash('Preencha todos  os campos.')
         else:
             dados = {'nome': nome, 'email': email, 'senha': senha}
             criar = requests.post(f'{link}/users.json', data=json.dumps(dados))
@@ -27,8 +27,8 @@ def cadastrar():
             if criar.status_code == 200:
                 flash('Usuário cadastrado com sucesso.')
             else:
-                print(f'Falha ao cadastrar usuário no Firebase. Status Code: {criar.status_code}')
-                flash('Falha ao cadastrar usuário no Firebase. Tente novamente mais tarde.')
+                print(f'Falha ao cadastrar usuário .Status Code: {criar.status_code}')
+                flash('Falha ao cadastrar usuário ')
 
     return render_template('cadastrar.html')
 
