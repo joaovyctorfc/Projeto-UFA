@@ -11,7 +11,7 @@ bcrypt = Bcrypt(app)
 # Defina a chave secreta aqui
 app.secret_key = 'sua_chave_secreta_aqui'
 @app.route('/')
-def home():
+def retorno():
     return render_template('login.html')
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar():
@@ -24,13 +24,11 @@ def cadastrar():
 
         if not nome or not email or not senha:
             flash('Preencha todos os campos.')
-        # Verifique o formato de e-mail
         elif "@" not in email or email.split("@")[1].split(".")[0] not in lista_provedores:
             flash('Formato de email inválido')
         else:
             senha_criptografada = bcrypt.generate_password_hash(senha).decode('utf-8')
             
-            # Verifique se o e-mail já existe no Firebase
             response = requests.get(f'{link}/users.json')
             data = response.json()
 
@@ -39,7 +37,6 @@ def cadastrar():
                 if email in emails_existentes:
                     flash('E-mail já cadastrado.')
                 else:
-                    # Se o e-mail não existir, cadastre o usuário com senha criptografada
                     dados = {'nome': nome, 'email': email, 'senha': senha_criptografada}                   
                     criar = requests.post(f'{link}/users.json', data=json.dumps(dados))
 
@@ -49,7 +46,6 @@ def cadastrar():
                         print(f'Falha ao cadastrar usuário. Status Code: {criar.status_code}')
                         flash('Falha ao cadastrar usuário')
             else:
-                # Se não houver dados no Firebase, cadastre o usuário diretamente com senha criptografada
                 dados = {'nome': nome, 'email': email, 'senha': senha_criptografada}    
                 criar = requests.post(f'{link}/users.json', data=json.dumps(dados))
 
