@@ -3,7 +3,6 @@ import requests
 import json
 from Cadastrar import cadastrar 
 from Email import email
-from Video import video
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'
@@ -52,9 +51,26 @@ def cadastrar_rota():
     return cadastrar()
 #############################
 @app.route('/Video', methods=['GET', 'POST'])
-def video_rota():
-    return video()
-#############################
+def video():
+    if 'logged_in' in session and session['logged_in']:
+        user_email = session['user_email']  
+        user_nome = session['user_nome']
+        
+        # Criar um dicionário com os dados do vídeo
+        video_data = {
+            'title': 'Meu Vídeo',
+            'imageurl': 'URL_do_video.mp4',
+            'email': user_email  # Associar o vídeo ao e-mail do usuário
+        }
+
+        # Adicionar video_data ao Firebase Realtime Database ou Firestore
+        # Certifique-se de usar o método apropriado aqui para adicionar dados ao Firebase.
+
+        return render_template('Video.html', user_email=user_email, user_nome=user_nome)
+    else:
+        return redirect('/')
+
+########
 
 
 @app.route('/home', methods=['POST', 'GET'])

@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   
-   <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <title>mapa</title>
+    <title>Mapa</title>
 </head>
 <body>
-  
-
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,5 +25,83 @@
             </div>
         </div>
     </nav>
+  
+    <!-- Container para os vídeos -->
+    <div id="videos-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var userEmail = "{{ session['user_email'] }}";
+        var userNome = "{{ session['user_nome'] }}";
+        console.log("Email do usuário:", userEmail);
+
+        // Configuração do Firebase (substitua pelas suas próprias configurações)
+        var firebaseConfig = {
+            apiKey: "AIzaSyCzKJQhamtH0XAJgK1gvGIFlW7MU9ujm48",
+            authDomain: "projeto-drone.firebaseapp.com",
+            databaseURL: "https://projeto-drone-default-rtdb.firebaseio.com",
+            projectId: "projeto-drone",
+            storageBucket: "projeto-drone.appspot.com",
+            messagingSenderId: "557356924152",
+            appId: "1:557356924152:web:2574dec37d71b47cb20f0d",
+             measurementId: "G-N41S4N7B8P"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var messagesRef = firebase.database().ref('Checking');
+
+// Função para carregar vídeos
+function loadVideos() {
+    messagesRef.once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var childData = childSnapshot.val();
+            var videoUri = childData.imageurl;
+
+            // Crie um elemento de vídeo
+            var videoElement = document.createElement("video");
+            videoElement.controls = true;
+            videoElement.width = 400;
+            videoElement.height = 360;
+
+            // Obtenha a URL correta do Firebase Storage
+            firebase.storage().refFromURL(videoUri).getMetadata().then(function(metadata) {
+                var videoUrl = metadata.downloadURLs[0];
+
+                // Crie um elemento de origem para o vídeo
+                var sourceElement = document.createElement("source");
+                sourceElement.src = videoUrl;
+                sourceElement.type = "video/mp4";
+
+                // Adicione o elemento de origem ao elemento de vídeo
+                videoElement.appendChild(sourceElement);
+
+                // Crie um checkbox
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = videoUri; // Você pode usar o URL do vídeo como valor
+
+                // Crie um rótulo para o checkbox
+                var label = document.createElement("label");
+                label.appendChild(checkbox);
+
+                // Adicione o vídeo e o checkbox ao container de vídeos
+                var videoContainer = document.getElementById('videos-container');
+                videoContainer.appendChild(videoElement);
+                videoContainer.appendChild(label);
+            }).catch(function(error) {
+                console.error('Erro ao obter a URL do vídeo:', error);
+            });
+        });
+    });
+}
+
+// Chame a função para carregar os vídeos quando o documento estiver pronto
+document.addEventListener("DOMContentLoaded", function() {
+    loadVideos();
+});
+
+    </script>
 </body>
 </html>
