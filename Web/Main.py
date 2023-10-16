@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
 from Cadastrar import cadastrar 
+from Email import email
 from Video import video
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
@@ -75,7 +76,12 @@ def upload():
         return render_template('upload.html', user_email=user_email, user_nome=user_nome)
     else:
         return redirect('/')
+    
 
+ 
+@app.route('/email', methods=['GET', 'POST'])
+def email_rota():
+    return email()
 
 if __name__ == "__main__":
     app.run(debug=True)
