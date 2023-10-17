@@ -26,7 +26,6 @@
         </div>
     </nav>
   
-    <!-- Container para os vídeos -->
     <div id="videos-container"></div>
 
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
@@ -36,9 +35,6 @@
     <script>
         var userEmail = "{{ session['user_email'] }}";
         var userNome = "{{ session['user_nome'] }}";
-        console.log("Email do usuário:", userEmail);
-
-        // Configuração do Firebase (substitua pelas suas próprias configurações)
         var firebaseConfig = {
             apiKey: "AIzaSyCzKJQhamtH0XAJgK1gvGIFlW7MU9ujm48",
             authDomain: "projeto-drone.firebaseapp.com",
@@ -52,56 +48,52 @@
         firebase.initializeApp(firebaseConfig);
         var messagesRef = firebase.database().ref('Checking');
 
-// Função para carregar vídeos
-function loadVideos() {
+        function loadVideosForUser(userEmail) {
+
     messagesRef.once('value', function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
             var childData = childSnapshot.val();
             var videoUri = childData.imageurl;
+            var videoUserEmail = childData.email;
 
-            // Crie um elemento de vídeo
-            var videoElement = document.createElement("video");
-            videoElement.controls = true;
-            videoElement.width = 400;
-            videoElement.height = 360;
+            console.log("Email djo usuário:", userEmail);
+console.log("Email do vídeo:", videoUserEmail);
 
-            // Obtenha a URL correta do Firebase Storage
-            firebase.storage().refFromURL(videoUri).getMetadata().then(function(metadata) {
-                var videoUrl = metadata.downloadURLs[0];
+            if (videoUserEmail === userEmail) {
+                var videoElement = document.createElement("video");
+                videoElement.controls = true;
+                videoElement.width = 400;
+                videoElement.height = 360;
 
-                // Crie um elemento de origem para o vídeo
-                var sourceElement = document.createElement("source");
-                sourceElement.src = videoUrl;
-                sourceElement.type = "video/mp4";
+                firebase.storage().refFromURL(videoUri).getMetadata().then(function(metadata) {
+                    var videoUrl = metadata.downloadURLs[0];
 
-                // Adicione o elemento de origem ao elemento de vídeo
-                videoElement.appendChild(sourceElement);
+                    var sourceElement = document.createElement("source");
+                    sourceElement.src = videoUrl;
+                    sourceElement.type = "video/mp4";
 
-                // Crie um checkbox
-                var checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.value = videoUri; // Você pode usar o URL do vídeo como valor
+                    videoElement.appendChild(sourceElement);
 
-                // Crie um rótulo para o checkbox
-                var label = document.createElement("label");
-                label.appendChild(checkbox);
+                    var checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.value = videoUri; 
+                    var label = document.createElement("label");
+                    label.appendChild(checkbox);
 
-                // Adicione o vídeo e o checkbox ao container de vídeos
-                var videoContainer = document.getElementById('videos-container');
-                videoContainer.appendChild(videoElement);
-                videoContainer.appendChild(label);
-            }).catch(function(error) {
-                console.error('Erro ao obter a URL do vídeo:', error);
-            });
+                    var videoContainer = document.getElementById('videos-container');
+                    videoContainer.appendChild(videoElement);
+                    videoContainer.appendChild(label);
+                }).catch(function(error) {
+                    console.error('Erro ao obter a URL do vídeo:', error);
+                });
+            }
         });
     });
 }
 
-// Chame a função para carregar os vídeos quando o documento estiver pronto
 document.addEventListener("DOMContentLoaded", function() {
-    loadVideos();
+    loadVideosForUser(userEmail);
 });
-
     </script>
 </body>
 </html>
