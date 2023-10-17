@@ -14,27 +14,23 @@
     </div>
 {% endif %}
     <div id="form_fundo">
-        <h1>Cadastrar</h1>
+        <h1>Esqueceu senha</h1>
 
         <div id="form_frente">
-            <form action="/email" id="email" method="POST">
+            <form action="/codigo" id="email" method="POST">
            
                 <label for="email">Email</label><br>
                 <input type="text" name="email" placeholder="Email"><br>
                 <label for="email">Código</label><br>
-                <button type="button" id="btn_código">Enviar Código</button><br>
+                <button type="submit" id="btn_codigo" onclick="window.location.href='/codigo'">Enviar código</button>
 
                 <input type="text" name="Código" placeholder="Código"><br>
 
                 <label for="senha">Nova Senha</label><br>
                 <input type="password" name="senha" placeholder="Senha"><br>
-                <button type="submit" id="btn_enviar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>Gerar Nova Senha
-                    <button type="button" id="btn_voltar" onclick="window.location.href='/'">Voltar</button>
-                </button>
+                <button type="button" id="btn_codigo" onclick="window.location.href='/senha'">Gerar Nova Senha</button>
+                <button type="button" id="btn_voltar" onclick="window.location.href='/'">Voltar</button>
+
             </form>
         </div>
     </div>
