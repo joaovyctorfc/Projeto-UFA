@@ -2,7 +2,9 @@ from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
 from Cadastrar import cadastrar 
-from Email import email
+from Email import codigo
+from Email import senha
+
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'
@@ -95,9 +97,12 @@ def upload():
     
 
  
-@app.route('/email', methods=['GET', 'POST'])
-def email_rota():
-    return email()
+@app.route('/codigo', methods=['GET', 'POST'])
+def codigo_rota():
+    return codigo()
+@app.route('/senha', methods=['GET', 'POST'])
+def senha_rota():
+    return senha()
 
 if __name__ == "__main__":
     app.run(debug=True)
