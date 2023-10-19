@@ -71,6 +71,8 @@ def video():
         return render_template('Video.html', user_email=user_email, user_nome=user_nome)
     else:
         return redirect('/')
+ 
+
 
 ########
 

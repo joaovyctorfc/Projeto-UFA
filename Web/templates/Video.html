@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  
+
     <title>Mapa</title>
 </head>
 <body>
+    <style>
+        .hidden-video {
+        display: none;
+    }
+    
+      </style>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,13 +31,17 @@
             </div>
         </div>
     </nav>
-  
+    
     <div id="videos-container"></div>
+ 
 
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
     <script src="https://ajax.googleapis.com/libs/jquery/1.9.1/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.8.0/jszip.min.js"></script>
+
     <script>
         var userEmail = "{{ session['user_email'] }}";
         var userNome = "{{ session['user_nome'] }}";
@@ -45,55 +55,82 @@
             appId: "1:557356924152:web:2574dec37d71b47cb20f0d",
              measurementId: "G-N41S4N7B8P"
         };
+    
         firebase.initializeApp(firebaseConfig);
         var messagesRef = firebase.database().ref('Checking');
-
+        var selectedImageURLs = [];
+    
         function loadVideosForUser(userEmail) {
-
-    messagesRef.once('value', function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            var childData = childSnapshot.val();
-            var videoUri = childData.imageurl;
-            var videoUserEmail = childData.email;
-
-            console.log("Email djo usuário:", userEmail);
-console.log("Email do vídeo:", videoUserEmail);
-
-            if (videoUserEmail === userEmail) {
-                var videoElement = document.createElement("video");
-                videoElement.controls = true;
-                videoElement.width = 400;
-                videoElement.height = 360;
-
-                firebase.storage().refFromURL(videoUri).getMetadata().then(function(metadata) {
-                    var videoUrl = metadata.downloadURLs[0];
-
-                    var sourceElement = document.createElement("source");
-                    sourceElement.src = videoUrl;
-                    sourceElement.type = "video/mp4";
-
-                    videoElement.appendChild(sourceElement);
-
-                    var checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.value = videoUri; 
-                    var label = document.createElement("label");
-                    label.appendChild(checkbox);
-
-                    var videoContainer = document.getElementById('videos-container');
-                    videoContainer.appendChild(videoElement);
-                    videoContainer.appendChild(label);
-                }).catch(function(error) {
-                    console.error('Erro ao obter a URL do vídeo:', error);
+            messagesRef.once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var childData = childSnapshot.val();
+                    var videoUri = childData.imageurl; 
+                    var videoUserEmail = childData.email;
+    
+                    if (videoUserEmail === userEmail) {
+                        var videoElement = document.createElement("video");
+                        videoElement.controls = true;
+                        videoElement.width = 400;
+                        videoElement.height = 360;
+    
+                        firebase.storage().refFromURL(videoUri).getDownloadURL().then(function(videoUrl) {
+                            var sourceElement = document.createElement("source");
+                            sourceElement.src = videoUrl;
+                            sourceElement.type = "video/mp4";
+    
+                            videoElement.appendChild(sourceElement);
+    
+                            var checkbox = document.createElement("input");
+                            checkbox.type = "checkbox";
+                            checkbox.value = videoUri;
+                            checkbox.addEventListener('change', function() {
+                                if (checkbox.checked) {
+                                    var selectedVideoUri = checkbox.value;
+                                    selectedImageURLs.push(selectedVideoUri);
+                                    console.log("video " + selectedVideoUri);
+                                }
+                            });
+    
+                            var label = document.createElement("label");
+                            label.appendChild(checkbox);
+    
+                            var videoContainer = document.getElementById('videos-container');
+                            videoContainer.appendChild(videoElement);
+                            videoContainer.appendChild(label);
+                        }).catch(function(error) {
+                            console.error('Erro ao obter a URL do vídeo:', error);
+                        });
+                    }
                 });
-            }
+            });
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            loadVideosForUser(userEmail);
         });
-    });
+        function downloadVideo() {
+
+
+        }
+        function DeletarVideo() {
+    
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    loadVideosForUser(userEmail);
-});
+
+
+
+
+      
+
+
+
     </script>
+    
+    <button id="button" onclick="downloadVideo()">Download</button>
+    <button id="button1" onclick="DeletarVideo()">Deletar</button>
+
+    
+
+
 </body>
 </html>
