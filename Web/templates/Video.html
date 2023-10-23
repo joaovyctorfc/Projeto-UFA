@@ -1,19 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Videos</title>
 
-    <title>Mapa</title>
-</head>
-<body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7Rxnatzjc3DSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous">
+   
     <style>
-        .hidden-video {
-        display: none;
-    }
-    
-      </style>
+        /* Seu estilo CSS */
+        .loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: none;
+            z-index: 9999;
+        }
+
+        .loading-animation img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        body {
+            background-color: #f0f0f0;
+        }
+
+        .form_fundo {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .form_frente {
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        .video-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .video-checkbox {
+            transform: scale(1.1);
+            margin-left: 3px;
+            vertical-align: middle;
+        }
+
+        .video-label {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+        }
+
+        .video-label {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .custom-checkbox {
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+
+<body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -31,18 +131,33 @@
             </div>
         </div>
     </nav>
-    
-    <div id="videos-container"></div>
- 
+    <div class="loading-animation">
+        <img src="loading.gif" alt="Carregando...">
+    </div>
+
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 20vh;">
+        <h1>Meus vídeos</h1>
+    </div>
+
+    <div id="videos-container" style="margin-left: 20px;"></div>
 
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
     <script src="https://ajax.googleapis.com/libs/jquery/1.9.1/jquery.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.8.0/jszip.min.js"></script>
+<script>  function showLoadingAnimation() {
+    var loadingAnimation = document.querySelector('.loading-animation');
+    loadingAnimation.style.display = 'block';
+}
+showLoadingAnimation();
+function hideLoadingAnimation() {
+    var loadingAnimation = document.querySelector('.loading-animation');
+    loadingAnimation.style.display = 'none';
+}
+    
 
-    <script>
+
         var userEmail = "{{ session['user_email'] }}";
         var userNome = "{{ session['user_nome'] }}";
         var firebaseConfig = {
@@ -53,84 +168,143 @@
             storageBucket: "projeto-drone.appspot.com",
             messagingSenderId: "557356924152",
             appId: "1:557356924152:web:2574dec37d71b47cb20f0d",
-             measurementId: "G-N41S4N7B8P"
+            measurementId: "G-N41S4N7B8P"
         };
-    
+
         firebase.initializeApp(firebaseConfig);
         var messagesRef = firebase.database().ref('Checking');
         var selectedImageURLs = [];
-    
-        function loadVideosForUser(userEmail) {
-            messagesRef.once('value', function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    var childData = childSnapshot.val();
-                    var videoUri = childData.imageurl; 
-                    var videoUserEmail = childData.email;
-    
-                    if (videoUserEmail === userEmail) {
-                        var videoElement = document.createElement("video");
-                        videoElement.controls = true;
-                        videoElement.width = 400;
-                        videoElement.height = 360;
-    
-                        firebase.storage().refFromURL(videoUri).getDownloadURL().then(function(videoUrl) {
-                            var sourceElement = document.createElement("source");
-                            sourceElement.src = videoUrl;
-                            sourceElement.type = "video/mp4";
-    
-                            videoElement.appendChild(sourceElement);
-    
-                            var checkbox = document.createElement("input");
-                            checkbox.type = "checkbox";
-                            checkbox.value = videoUri;
-                            checkbox.addEventListener('change', function() {
-                                if (checkbox.checked) {
-                                    var selectedVideoUri = checkbox.value;
-                                    selectedImageURLs.push(selectedVideoUri);
-                                    console.log("video " + selectedVideoUri);
-                                }
-                            });
-    
-                            var label = document.createElement("label");
-                            label.appendChild(checkbox);
-    
-                            var videoContainer = document.getElementById('videos-container');
-                            videoContainer.appendChild(videoElement);
-                            videoContainer.appendChild(label);
-                        }).catch(function(error) {
-                            console.error('Erro ao obter a URL do vídeo:', error);
-                        });
-                    }
+
+        function loadVideosByDateTime() {
+
+    var rowDiv = document.createElement("div");
+    rowDiv.classList.add("row");
+    console.log("Iniciando o carregamento de vídeos...");
+    messagesRef.orderByChild('date').once('value', function (snapshot) {
+        var videos = [];
+
+        snapshot.forEach(function (childSnapshot) {
+            var childData = childSnapshot.val();
+            var videoUri = childData.imageurl;
+            var videoUserEmail = childData.email;
+
+            if (videoUserEmail === userEmail) {
+                videos.push({
+                    videoUri: videoUri,
+                    date: childData.date
+
                 });
+
+            }
+
+        });
+        videos.sort(function (a, b) {
+            // Converta as datas e horas em objetos Date
+            var dateA = parseDate(a.date);
+            var dateB = parseDate(b.date);
+
+            return dateA - dateB;
+        });
+
+        function parseDate(dateString) {
+    // O formato da data é "MM/DD/AAAA hh:mm:ss"
+    var dateTimeParts = dateString.split(" ");
+    var datePart = dateTimeParts[0].split("/");
+    var timePart = dateTimeParts[1].split(":");
+
+    var month = parseInt(datePart[0], 10) - 1; // Subtrai 1 do mês
+    var day = parseInt(datePart[1], 10);
+    var year = parseInt(datePart[2], 10);
+    var hours = parseInt(timePart[0], 10);
+    var minutes = parseInt(timePart[1], 10);
+    var seconds = parseInt(timePart[2], 10);
+
+    return new Date(year, month, day, hours, minutes, seconds);
+}
+     videos.forEach(function (videoData) {
+                    var colDiv = document.createElement("div");
+                    colDiv.classList.add("col-6");
+
+                    var videoElement = document.createElement("video");
+                    videoElement.controls = true;
+                    videoElement.width = 500;
+                    videoElement.height = 360;
+
+                    firebase.storage().refFromURL(videoData.videoUri).getDownloadURL().then(function (videoUrl) {
+                        var sourceElement = document.createElement("source");
+                        sourceElement.src = videoUrl;
+
+                        var fileExtension = videoData.videoUri.split('.').pop().toLowerCase;
+                        if (fileExtension === 'mp4') {
+                            sourceElement.type = "video/mp4";
+                        } else if (fileExtension === 'webm') {
+                            sourceElement.type = "video/webm";
+                        } else if (fileExtension === 'avi') {
+                            sourceElement.type = "video/x-msvideo";
+                        } else if (fileExtension === 'flv') {
+                            sourceElement.type = "video/x-flv";
+                        } else {
+                            sourceElement.type = "video/mp4";
+                        }
+
+                        videoElement.appendChild(sourceElement);
+
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.value = videoData.videoUri;
+                        checkbox.style.transform = "scale(1.5)";
+                        checkbox.style.marginLeft = "5px";
+                        checkbox.style.verticalAlign = "middle";
+                        checkbox.style.marginTop = "-16px";
+                        checkbox.style.cursor = "pointer";
+                        checkbox.style.filter = "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))";
+                        checkbox.addEventListener('change', function () {
+                            if (checkbox.checked) {
+                                var selectedVideoUri = checkbox.value;
+                                selectedImageURLs.push(selectedVideoUri);
+                                console.log("video " + selectedVideoUri);
+                            }
+                        });
+
+                        var label = document.createElement("label");
+                        label.style.fontSize = "16px";
+                        label.style.verticalAlign = "middle";
+
+                        label.appendChild(checkbox);
+
+                        var dateText = document.createElement("span");
+                        dateText.textContent = "Data e Hora: " + videoData.date;
+                        dateText.style.marginLeft = "10px";
+                        label.appendChild(dateText);
+
+                        colDiv.appendChild(videoElement);
+                        colDiv.appendChild(label);
+                        rowDiv.appendChild(colDiv);
+                    }).catch(function (error) {
+                        console.error('Erro ao obter a URL do vídeo:', error);
+                    });
+                });
+                var videoContainer = document.getElementById('videos-container');
+                videoContainer.appendChild(rowDiv);
+                hideLoadingAnimation(); // Esconde o loading quando os vídeos estiverem prontos
+
             });
         }
-    
-        document.addEventListener("DOMContentLoaded", function() {
-            loadVideosForUser(userEmail);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            loadVideosByDateTime();
+
         });
+
         function downloadVideo() {
-
-
+            console.log("video " + selectedImageURLs);
+            // Implemente o código para o download dos vídeos selecionados aqui.
         }
-        function DeletarVideo() {
-    
-}
-
-
-
-
-
-      
-
-
-
     </script>
-    
-    <button id="button" onclick="downloadVideo()">Download</button>
-    <button id="button1" onclick="DeletarVideo()">Deletar</button>
 
-    
-
-
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 20vh;">
+        <button id="downloadButton" class="btn btn-primary mt-3" onclick="downloadVideo()">Download</button>
+    </div>
 </body>
+
 </html>

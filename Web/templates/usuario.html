@@ -11,6 +11,33 @@
     crossorigin=""></script>
     <title>mapa</title>
 </head>
+<style>
+    /* Adicione o estilo das cores aqui */
+    body {
+        background-color: #f0f0f0;
+    }
+
+    .form_fundo {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form_frente {
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+</style>
 <body>
   
 
@@ -34,11 +61,11 @@
     <style> 
         #map { height: 300px; width: 50%;}
     </style>
-    <h1> Sua localização é:</h1>
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 20vh;">
+        <h1>Home</h1>
+    </div>
     <div id="map"></div>
 
-    <p>Nome do usuário: {{ user_nome }}</p>
-    <p>Email do usuário: {{ user_email }}</p>
   
 </body>
 </html>
