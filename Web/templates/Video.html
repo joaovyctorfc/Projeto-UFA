@@ -11,104 +11,157 @@
         crossorigin="anonymous">
    
     <style>
-        /* Seu estilo CSS */
-        .loading-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            display: none;
-            z-index: 9999;
-        }
+.loading-animation {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  transform: scale(5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+}
 
-        .loading-animation img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-        }
+.c-loader {
+  animation: is-rotating 1s infinite;
+  border: 6px solid #e5e5e5;
+  border-radius: 50%;
+  border-top-color: #51d4db;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 40%;
+  left: 44%;
 
-        .spinner {
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid #007bff;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-        }
+}
 
-      
-        body {
-            background-color: #f0f0f0;
-        }
+@keyframes is-rotating {
+  to {
+    transform: rotate(1turn);
+  }
+}
 
+        /* Adicione o estilo das cores aqui */
+       body{
+
+
+        background-color: #0d0d73;
+
+       }
+       /* Centralizar o texto "Login" */
+h1 {
+    text-align: center;
+    margin-top: 100px; /* Ajuste a margem superior conforme necessário */
+    margin-right: 95px;
+
+}
+/* Alterar a cor do link para uma tonalidade mais clara */
+a {
+    color: #4d7dab; /* Cor mais clara do que o azul padrão */
+}
+
+/* Ou, se desejar aplicar a uma classe específica */
+.link-clara {
+    color: #4d7dab; /* Cor mais clara para links com a classe "link-clara" */
+}
+
+/* Ajustar a posição da div .form_frente sem afetar o "Login" */
+        .form-control {
+            width: 50%; 
+            font-size: 14px; 
+            text-align: left;
+            margin: 0 auto;            
+        }
+        .center-input {
+        display: flex;
+        justify-content: center;
+    }
         .form_fundo {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
+            background-color: transparent; /* Fundo transparente */
+                        padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border: none; 
         }
 
         .form_frente {
-            text-align: center;
-            background-color: #ffffff;
-        }
+    text-align: center;
+    padding:  100px -100px; /* Reduzir o preenchimento */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda */
+    padding: 0; /* Sem preenchimento */
+    box-shadow: none; /* Remove a sombra */
+    margin-top: 100px; /* Ajuste a margem superior conforme necessário */
 
-        .btn-primary {
-            background-color: #007bff;
+
+}
+
+    .btn-secondary {
+            background-color: #6c757d;
             color: #fff;
         }
-
+        .btn-primary {
+            background-color: #6289b4;
+    color: #fff;
+    border: 2px solid #6289b4;  
+    margin-right: 110px;
+    
+    bottom: -50;
+        }
+        .btn-primary:hover {
+            background-color: #007bff; 
+}
         .btn-secondary {
             background-color: #6c757d;
             color: #fff;
         }
+     
+    
+.video-container {
+    text-align: center;
+}
 
-        .video-container {
-            text-align: center;
-            margin-top: 20px;
-        }
+.video-checkbox {
+    transform: scale(1.1);
+    margin-left: 3px;
+    vertical-align: middle;
+}
 
-        .video-checkbox {
-            transform: scale(1.1);
-            margin-left: 3px;
-            vertical-align: middle;
-        }
+.video-label {
+    font-size: 16px;
+    vertical-align: middle;
+}
 
-        .video-label {
-            font-size: 16px;
-            vertical-align: middle;
-        }
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .video-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+.video {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}
 
-        .video {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-        }
+.video-label {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
 
-        .video-label {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .custom-checkbox {
-            transform: scale(1.5);
-        }
-    </style>
+.custom-checkbox {
+    transform: scale(1.5);
+}  </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+ 
+    <nav class="navbar navbar-expand-lg bg-white">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -125,13 +178,14 @@
             </div>
         </div>
     </nav>
-    <div class="loading-animation">
-        <img src="loading.gif" alt="Carregando...">
-    </div>
+ 
 
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 20vh;">
-        <h1>Meus vídeos</h1>
-    </div>
+<div class="c-loader"></div>
+
+
+
+<h1 style="margin-top: 0px;  color: #fff;">Meus vídeos</h1>
+    
 
     <div id="videos-container" style="margin-left: 20px;"></div>
 
@@ -141,17 +195,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.8.0/jszip.min.js"></script>
 <script>  function showLoadingAnimation() {
-    var loadingAnimation = document.querySelector('.loading-animation');
+    var loadingAnimation = document.querySelector('.c-loader');
     loadingAnimation.style.display = 'block';
 }
 showLoadingAnimation();
 function hideLoadingAnimation() {
-    var loadingAnimation = document.querySelector('.loading-animation');
+    var loadingAnimation = document.querySelector('.c-loader');
     loadingAnimation.style.display = 'none';
 }
     
-
-
+ 
         var userEmail = "{{ session['user_email'] }}";
         var userNome = "{{ session['user_nome'] }}";
         var firebaseConfig = {
@@ -239,7 +292,7 @@ function hideLoadingAnimation() {
             checkbox.style.verticalAlign = "middle";
             checkbox.style.marginTop = "1px"; // Ajuste conforme necessário
             checkbox.style.cursor = "pointer";
-            checkbox.style.filter = "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5)";
+            checkbox.style.filter = "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1)";
             checkbox.addEventListener('change', function () {
                 if (checkbox.checked) {
                     var selectedVideoUri = checkbox.value;
@@ -257,6 +310,7 @@ function hideLoadingAnimation() {
             var dateText = document.createElement("span");
             dateText.textContent = "Data e Hora: " + videoData.date;
             dateText.style.marginLeft = "10px";
+            dateText.style.color = "white";
             label.appendChild(dateText);
 
             colDiv.appendChild(videoElement);
@@ -289,8 +343,10 @@ function hideLoadingAnimation() {
         var videoContainer = document.getElementById('videos-container');
         videoContainer.appendChild(rowDiv);
         hideLoadingAnimation(); // Esconde o loading quando os vídeos estiverem prontos
+       
     });
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     loadVideosByDateTime();

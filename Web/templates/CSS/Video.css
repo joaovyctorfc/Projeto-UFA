@@ -1,0 +1,92 @@
+.loading-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    z-index: 9999;
+}
+
+.loading-animation img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+}
+
+.spinner {
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+
+body {
+    background-color: #f0f0f0;
+}
+
+.form_fundo {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form_frente {
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.video-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.video-checkbox {
+    transform: scale(1.1);
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+.video-label {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}
+
+.video-label {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.custom-checkbox {
+    transform: scale(1.5);
+}
