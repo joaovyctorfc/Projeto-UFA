@@ -30,7 +30,6 @@
             transform: translate(-50%, -50%);
             width: 50px;
             height: 50px;
-            animation: spin 1s linear infinite;
         }
 
         .spinner {
@@ -39,14 +38,9 @@
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            animation: spin 2s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+      
         body {
             background-color: #f0f0f0;
         }
@@ -174,9 +168,7 @@ function hideLoadingAnimation() {
         firebase.initializeApp(firebaseConfig);
         var messagesRef = firebase.database().ref('Checking');
         var selectedImageURLs = [];
-
         function loadVideosByDateTime() {
-
     var rowDiv = document.createElement("div");
     rowDiv.classList.add("row");
     console.log("Iniciando o carregamento de vídeos...");
@@ -192,12 +184,10 @@ function hideLoadingAnimation() {
                 videos.push({
                     videoUri: videoUri,
                     date: childData.date
-
                 });
-
             }
-
         });
+
         videos.sort(function (a, b) {
             // Converta as datas e horas em objetos Date
             var dateA = parseDate(a.date);
@@ -207,99 +197,110 @@ function hideLoadingAnimation() {
         });
 
         function parseDate(dateString) {
-    // O formato da data é "MM/DD/AAAA hh:mm:ss"
-    var dateTimeParts = dateString.split(" ");
-    var datePart = dateTimeParts[0].split("/");
-    var timePart = dateTimeParts[1].split(":");
+            // O formato da data é "MM/dd/yyyy, hh:mm:ss a"
+            var dateTimeParts = dateString.split(", "); // Separa a data e a hora
+            var datePart = dateTimeParts[0].split("/");
+            var timePart = dateTimeParts[1].split(" ");
 
-    var month = parseInt(datePart[0], 10) - 1; // Subtrai 1 do mês
-    var day = parseInt(datePart[1], 10);
-    var year = parseInt(datePart[2], 10);
-    var hours = parseInt(timePart[0], 10);
-    var minutes = parseInt(timePart[1], 10);
-    var seconds = parseInt(timePart[2], 10);
+            var month = parseInt(datePart[0], 10) - 1; // Subtrai 1 do mês
+            var day = parseInt(datePart[1], 10);
+            var year = parseInt(datePart[2], 10);
 
-    return new Date(year, month, day, hours, minutes, seconds);
-}
-     videos.forEach(function (videoData) {
-                    var colDiv = document.createElement("div");
-                    colDiv.classList.add("col-6");
+            var time = timePart[0].split(":");
+            var hours = parseInt(time[0], 10);
+            var minutes = parseInt(time[1], 10);
+            var seconds = parseInt(time[2], 10);
 
-                    var videoElement = document.createElement("video");
-                    videoElement.controls = true;
-                    videoElement.width = 500;
-                    videoElement.height = 360;
+            var isPM = timePart[1].toLowerCase() === "pm";
 
-                    firebase.storage().refFromURL(videoData.videoUri).getDownloadURL().then(function (videoUrl) {
-                        var sourceElement = document.createElement("source");
-                        sourceElement.src = videoUrl;
+            if (isPM && hours < 12) {
+                hours += 12;
+            }
 
-                        var fileExtension = videoData.videoUri.split('.').pop().toLowerCase;
-                        if (fileExtension === 'mp4') {
-                            sourceElement.type = "video/mp4";
-                        } else if (fileExtension === 'webm') {
-                            sourceElement.type = "video/webm";
-                        } else if (fileExtension === 'avi') {
-                            sourceElement.type = "video/x-msvideo";
-                        } else if (fileExtension === 'flv') {
-                            sourceElement.type = "video/x-flv";
-                        } else {
-                            sourceElement.type = "video/mp4";
-                        }
-
-                        videoElement.appendChild(sourceElement);
-
-                        var checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.value = videoData.videoUri;
-                        checkbox.style.transform = "scale(1.5)";
-                        checkbox.style.marginLeft = "5px";
-                        checkbox.style.verticalAlign = "middle";
-                        checkbox.style.marginTop = "-16px";
-                        checkbox.style.cursor = "pointer";
-                        checkbox.style.filter = "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))";
-                        checkbox.addEventListener('change', function () {
-                            if (checkbox.checked) {
-                                var selectedVideoUri = checkbox.value;
-                                selectedImageURLs.push(selectedVideoUri);
-                                console.log("video " + selectedVideoUri);
-                            }
-                        });
-
-                        var label = document.createElement("label");
-                        label.style.fontSize = "16px";
-                        label.style.verticalAlign = "middle";
-
-                        label.appendChild(checkbox);
-
-                        var dateText = document.createElement("span");
-                        dateText.textContent = "Data e Hora: " + videoData.date;
-                        dateText.style.marginLeft = "10px";
-                        label.appendChild(dateText);
-
-                        colDiv.appendChild(videoElement);
-                        colDiv.appendChild(label);
-                        rowDiv.appendChild(colDiv);
-                    }).catch(function (error) {
-                        console.error('Erro ao obter a URL do vídeo:', error);
-                    });
-                });
-                var videoContainer = document.getElementById('videos-container');
-                videoContainer.appendChild(rowDiv);
-                hideLoadingAnimation(); // Esconde o loading quando os vídeos estiverem prontos
-
-            });
+            return new Date(year, month, day, hours, minutes, seconds);
         }
+        videos.forEach(function (videoData) {
+    var colDiv = document.createElement("div");
+    colDiv.classList.add("col-6");
 
-        document.addEventListener("DOMContentLoaded", function () {
-            loadVideosByDateTime();
+    var videoContainerDiv = document.createElement("div");
+    videoContainerDiv.style.textAlign = "center"; // Centraliza o vídeo
 
+    var videoElement = document.createElement("video");
+    videoElement.controls = true;
+    videoElement.style.maxWidth = "80%"; // Define uma largura máxima para os vídeos
+    videoElement.style.display = "block"; // Garante que o vídeo ocupe toda a largura
+    videoElement.style.marginTop = "50px";
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = videoData.videoUri;
+            checkbox.style.transform = "scale(1.5)";
+            checkbox.style.marginLeft = "5px";
+            checkbox.style.verticalAlign = "middle";
+            checkbox.style.marginTop = "1px"; // Ajuste conforme necessário
+            checkbox.style.cursor = "pointer";
+            checkbox.style.filter = "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5)";
+            checkbox.addEventListener('change', function () {
+                if (checkbox.checked) {
+                    var selectedVideoUri = checkbox.value;
+                    selectedImageURLs.push(selectedVideoUri);
+                    console.log("video " + selectedVideoUri);
+                }
+            });
+
+            var label = document.createElement("label");
+            label.style.fontSize = "16px";
+            label.style.verticalAlign = "middle";
+
+            label.appendChild(checkbox);
+
+            var dateText = document.createElement("span");
+            dateText.textContent = "Data e Hora: " + videoData.date;
+            dateText.style.marginLeft = "10px";
+            label.appendChild(dateText);
+
+            colDiv.appendChild(videoElement);
+            colDiv.appendChild(label);
+            rowDiv.appendChild(colDiv);
+
+            firebase.storage().refFromURL(videoData.videoUri).getDownloadURL().then(function (videoUrl) {
+                var sourceElement = document.createElement("source");
+                sourceElement.src = videoUrl;
+
+                var fileExtension = videoData.videoUri.split('.').pop().toLowerCase;
+                if (fileExtension === 'mp4') {
+                    sourceElement.type = "video/mp4";
+                } else if (fileExtension === 'webm') {
+                    sourceElement.type = "video/webm";
+                } else if (fileExtension === 'avi') {
+                    sourceElement.type = "video/x-msvideo";
+                } else if (fileExtension === 'flv') {
+                    sourceElement.type = "video/x-flv";
+                } else {
+                    sourceElement.type = "video/mp4";
+                }
+
+                videoElement.appendChild(sourceElement);
+            }).catch(function (error) {
+                console.error('Erro ao obter a URL do vídeo:', error);
+            });
         });
 
-        function downloadVideo() {
-            console.log("video " + selectedImageURLs);
-            // Implemente o código para o download dos vídeos selecionados aqui.
-        }
+        var videoContainer = document.getElementById('videos-container');
+        videoContainer.appendChild(rowDiv);
+        hideLoadingAnimation(); // Esconde o loading quando os vídeos estiverem prontos
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    loadVideosByDateTime();
+});
+
+function downloadVideo() {
+    console.log("video " + selectedImageURLs);
+    // Implemente o código para o download dos vídeos selecionados aqui.
+}
+
     </script>
 
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 20vh;">

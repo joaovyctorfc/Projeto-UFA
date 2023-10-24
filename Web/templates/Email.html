@@ -22,7 +22,16 @@
         .form_frente {
             text-align: center;
         }
-
+        .form-control {
+            width: 50%; /* Defina a largura desejada */
+            font-size: 14px; /* Defina o tamanho da fonte desejado */
+            text-align: left; /* Centralize o texto nos campos de entrada */
+            margin: 0 auto;            
+        }
+        .center-input {
+        display: flex;
+        justify-content: center;
+    }
         .btn-primary {
             background-color: #007bff;
             color: #fff;
@@ -42,18 +51,18 @@
             <form action="/codigo" id="email" method="POST">
                 <div class="col-md-6 offset-md-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" name="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <input type="text" name="email" class="form-control" id="inputEmail" >
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" style="border-radius: 10px; margin-top: 10px;">Enviar Código</button>
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <label for="codigo" class="form-label">Código</label>
-                    <input type="text" name="codigo" class="form-control" id="inputCodigo" placeholder="Código">
+                    <input type="text" name="codigo" class="form-control" id="inputCodigo">
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" name="senha" class="form-control" id="inputSenha" placeholder="Senha">
+                    <input type="password" name="senha" class="form-control" id="inputSenha" >
                 </div>
                 <div class="col-12">
                     <button type="button" class="btn btn-secondary" style="border-radius: 10px; margin-top: 10px;">Gerar Nova Senha</button>

@@ -11,7 +11,16 @@
         body {
             background-color: #f0f0f0;
         }
-
+        .form-control {
+            width: 50%; 
+            font-size: 14px; 
+            text-align: left;
+            margin: 0 auto;            
+        }
+        .center-input {
+        display: flex;
+        justify-content: center;
+    }
         .form_fundo {
             background-color: #ffffff;
             border-radius: 10px;
@@ -42,11 +51,11 @@
             <form action="/login" id="login" method="POST">
                 <div class="col-md-6 offset-md-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" name="email" class="form-control" id="inputEmail4" placeholder="Email">
+                    <input type="text" name="email" class="form-control" id="inputEmail4" >
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" name="senha" class="form-control" id="inputPassword4" placeholder="Senha">
+                    <input type="password" name="senha" class="form-control" id="inputPassword4" >
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" style="border-radius: 10px; margin-top: 10px;">

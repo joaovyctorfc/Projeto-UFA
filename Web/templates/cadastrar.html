@@ -26,7 +26,16 @@
             background-color: #007bff;
             color: #fff;
         }
-
+        .form-control {
+            width: 50%; /* Defina a largura desejada */
+            font-size: 14px; /* Defina o tamanho da fonte desejado */
+            text-align: left; /* Centralize o texto nos campos de entrada */
+            margin: 0 auto;            
+        }
+        .center-input {
+        display: flex;
+        justify-content: center;
+    }
         .btn-secondary {
             background-color: #6c757d;
             color: #fff;
@@ -41,17 +50,17 @@
 
         <div id="form_frente">
             <form action="/cadastrar" id="cadastrar" method="POST">
-                <div class="col-md-6 offset-md-3">
+                <div class="col-md-6 offset-md-3   ">
                     <label for="Nome" class="form-label">Nome</label>
-                    <input type="text" name="nome" class="form-control" placeholder="Nome">
+                    <input type="text" name="nome" class="form-control" >
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" name="email" class="form-control" placeholder="Email">
+                    <input type="text" name="email" class="form-control" >
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" name="senha" class="form-control" placeholder="Senha">
+                    <input type="password" name="senha" class="form-control" >
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" style="border-radius: 10px; margin-top: 10px;"> Cadastrar</button>
