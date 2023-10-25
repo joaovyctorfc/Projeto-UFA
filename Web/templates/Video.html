@@ -36,8 +36,8 @@ color: #4d7dab; /* Cor mais clara do que o azul padrão */
   height: 50px;
   width: 50px;
   position: absolute;
-  top: 40%;
-  left: 44%;
+  top: 50%;
+  left: 45%;
 
 }
 
@@ -348,7 +348,6 @@ function hideLoadingAnimation() {
                 console.error('Erro ao obter a URL do vídeo:', error);
             });
         });
-
         var videoContainer = document.getElementById('videos-container');
         videoContainer.appendChild(rowDiv);
         hideLoadingAnimation();
@@ -368,6 +367,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function downloadVideo() {
     console.log("video " + selectedImageURLs);
+    // Implemente o código para o download dos vídeos selecionados aqui.
 }
 
     </script>

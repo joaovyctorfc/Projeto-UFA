@@ -1,7 +1,7 @@
 import requests
 import json 
 
-link = "https://projeto-drone-default-rtdb.firebaseio.com/"
+link = "https://drone-ufa-default-rtdb.firebaseio.com/"
 
 #Cadastrar Dados:
 #dados = {'nome':'joao','email': 'joao@gmail.com','senha':'123'}
