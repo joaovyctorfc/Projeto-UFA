@@ -3,7 +3,7 @@ import requests
 import json
 from Cadastrar import cadastrar 
 import serial
-
+from flask import jsonify
 
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
