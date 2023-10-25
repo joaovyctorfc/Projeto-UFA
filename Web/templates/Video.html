@@ -82,6 +82,9 @@ a {
         display: flex;
         justify-content: center;
     }
+    .hidden {
+            display: none; /* Classe para ocultar o elemento */
+        }
         .form_fundo {
             background-color: transparent; /* Fundo transparente */
                         padding: 20px;
@@ -196,7 +199,11 @@ a {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.8.0/jszip.min.js"></script>
-<script>  function showLoadingAnimation() {
+<script>
+ 
+
+
+function showLoadingAnimation() {
     var loadingAnimation = document.querySelector('.c-loader');
     loadingAnimation.style.display = 'block';
 }
@@ -206,7 +213,7 @@ function hideLoadingAnimation() {
     loadingAnimation.style.display = 'none';
 }
     
- 
+
         var userEmail = "{{ session['user_email'] }}";
         var userNome = "{{ session['user_nome'] }}";
         var firebaseConfig = {
@@ -302,7 +309,7 @@ function hideLoadingAnimation() {
                     console.log("video " + selectedVideoUri);
                 }
             });
-
+           
             var label = document.createElement("label");
             label.style.fontSize = "16px";
             label.style.verticalAlign = "middle";
@@ -344,11 +351,16 @@ function hideLoadingAnimation() {
 
         var videoContainer = document.getElementById('videos-container');
         videoContainer.appendChild(rowDiv);
-        hideLoadingAnimation(); // Esconde o loading quando os vídeos estiverem prontos
-       
-    });
-}
-
+        hideLoadingAnimation();
+        
+        var myButton = document.getElementById('downloadButton');
+    
+    myButton.classList.add('hidden');
+    
+    setTimeout(function () {
+        myButton.classList.remove('hidden');
+    }); 
+});}
 
 document.addEventListener("DOMContentLoaded", function () {
     loadVideosByDateTime();
@@ -356,13 +368,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function downloadVideo() {
     console.log("video " + selectedImageURLs);
-    // Implemente o código para o download dos vídeos selecionados aqui.
 }
 
     </script>
 
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 20vh;">
-        <button id="downloadButton" class="btn btn-primary mt-3" onclick="downloadVideo()">Download</button>
+        <button id="downloadButton" class="btn btn-primary hidden" onclick="downloadVideo()">Download</button>
     </div>
 </body>
 
