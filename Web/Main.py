@@ -1,8 +1,8 @@
 from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
-import serial
 from Cadastrar import cadastrar 
+import serial
 
 
 from flask_bcrypt import Bcrypt
@@ -102,7 +102,7 @@ def upload():
 def senha():
    
         return render_template('Email.html')
-
+  
 # Abre a conexão com a porta serial
 ser = serial.Serial('/dev/cu.usbmodem1201', 9600)
 
@@ -115,6 +115,5 @@ def obter_dados():
     
     # Retorna os dados como JSON
     return jsonify({'dados': linha_decodificada})
-  
 if __name__ == "__main__":
     app.run(debug=True)
