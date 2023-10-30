@@ -38,10 +38,36 @@
         Home</h1>
    
 <script>
+    function obterDadosDaAPI() {
+        fetch('/api') 
+            .then(response => response.json())
+            .then(data => {
+                const umidadeSpan = document.getElementById('umidade');
+                const temperaturaSpan = document.getElementById('temperatura');
+                const luminosidadeSpan = document.getElementById('luminosidade');
+                const chanceChuvaSpan = document.getElementById('chanceChuva');
 
+                umidadeSpan.textContent = data.umidade;
+                temperaturaSpan.textContent = data.temperatura;
+                luminosidadeSpan.textContent = data.luminosidade;
+                chanceChuvaSpan.textContent = data.chance_chuva;
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados da API:', error);
+            });
+    }
+
+    obterDadosDaAPI();
+</script>
 
     
 </script>
-  
+<div id="dados" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);font-size:30px; text-align: center; color: white;">
+    <p>Umidade: <span id="umidade"></span></p>
+    <p>Temperatura: <span id="temperatura"></span></p>
+    <p>Luminosidade: <span id="luminosidade"></span></p>
+    <p>Chance de Chuva: <span id="chanceChuva"></span></p>
+</div>
+
 </body>
 </html>
