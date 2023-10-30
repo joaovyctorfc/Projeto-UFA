@@ -5,80 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    
-    <style>
-        /* Adicione o estilo das cores aqui */
-       body{
 
-
-        background-color: #0d0d73;
-
-       }
-       /* Centralizar o texto "Login" */
-h1 {
-    text-align: center;
-    margin-top: 100px; /* Ajuste a margem superior conforme necessário */
-}
-/* Alterar a cor do link para uma tonalidade mais clara */
-a {
-    color: #4d7dab; /* Cor mais clara do que o azul padrão */
-}
-
-/* Ou, se desejar aplicar a uma classe específica */
-.link-clara {
-    color: #4d7dab; /* Cor mais clara para links com a classe "link-clara" */
-}
-
-/* Ajustar a posição da div .form_frente sem afetar o "Login" */
-        .form-control {
-            width: 50%; 
-            font-size: 14px; 
-            text-align: left;
-            margin: 0 auto;            
-        }
-        .center-input {
-        display: flex;
-        justify-content: center;
-    }
-        .form_fundo {
-            background-color: transparent; /* Fundo transparente */
-                        padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border: none; 
-        }
-
-        .form_frente {
-    text-align: center;
-    padding:  100px -100px; /* Reduzir o preenchimento */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    color: #ffffff;
-    background-color: transparent; /* Fundo transparente */
-    border: none; /* Remove a borda */
-    padding: 0; /* Sem preenchimento */
-    box-shadow: none; /* Remove a sombra */
-    margin-top: 100px; /* Ajuste a margem superior conforme necessário */
-
-
-}
-
-
-        .btn-primary {
-            background-color: #6289b4;
-    color: #fff;
-    border: 2px solid #6289b4; 
-        }
-        .btn-primary:hover {
-            background-color: #007bff; }
-
-
-
-.btn-secondary {
-            background-color: #6c757d;
-            color: #fff;
-        }
-     
-    </style>
-    <link rel="stylesheet" type="text/css" href="CSS/Principal.css" media="screen" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Principal.css')}}" />
 </head>
 <body>
         <h1 style="margin-top: 0px;  color: #fff;">Login</h1>
