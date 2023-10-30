@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Senha</title>
+</head>
+<body>
+
+    <h1>Atualizar Senha</h1>
+
+    <form action="/atualizar_senha" method="post">
+        <input type="hidden" id="destinatario" name="destinatario" value="{{ destinatario }}">
+        
+        <label for="codigo">Código:</label>
+        <input type="text" id="codigo" name="codigo" required><br><br>
+
+        <label for="novaSenha">Nova Senha:</label>
+        <input type="password" id="novaSenha" name="novaSenha" required><br><br>
+
+        <button type="submit">Atualizar Senha</button>
+    </form>
+
+</body>
+</html>

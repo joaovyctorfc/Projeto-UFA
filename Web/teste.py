@@ -1,16 +1,7 @@
-
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, render_template, request
 from flask_mail import Mail, Message
-import requests
-import json
-import random
-import string
-from flask_bcrypt import Bcrypt
-
-link = "https://projeto-drone-default-rtdb.firebaseio.com/"
 
 app = Flask(__name__)
-bcrypt = Bcrypt(app)
 
 # Configuração do Flask-Mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -42,8 +33,3 @@ def enviar_email():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-  
-
-
