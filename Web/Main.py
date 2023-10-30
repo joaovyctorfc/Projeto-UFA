@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
 from Cadastrar import cadastrar 
-import serial
+##import serial
 from flask import jsonify
 from flask_bcrypt import Bcrypt
 
