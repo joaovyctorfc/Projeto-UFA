@@ -9,13 +9,13 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
     crossorigin=""></script>
     <title>Home</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/Principal.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Home.css')}}" />
 
 </head>
 
 <body>
   
-    <nav class="navbar navbar-expand-lg bg-white">
+    <nav class="navbar navbar-expand-lg" style="background-color: #1c2333;">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -32,56 +32,75 @@
             </div>
         </div>
     </nav>
-    
+    <div class="c-loader"></div>
+
     <h1 style="margin-top: 0px;  color: #fff;">
         Home</h1>
 
-<div id="dados" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; text-align: center; color: white;">
-    <p>Umidade: <span id="umidade"></span></p>
-    <p>Temperatura: <span id="temperatura"></span></p>
-    <p>Luminosidade: <span id="luminosidade"></span></p>
-    <p>Chance de Chuva: <span id="chanceChuva"></span></p>
-    <p>Pressão: <span id="pressao"></span></p>
-</div>
-
-<script>
- function obterDadosDaAPI() {
-    fetch('/api')
-        .then(response => response.text())
-        .then(data => {
-            // Use expressões regulares para extrair os valores
-            const umidadeMatch = data.match(/Umidade: (\d+\.\d+)%/);
-            const temperaturaMatch = data.match(/Temperatura: (\d+)C/);
-            const luminosidadeMatch = data.match(/Luminosidade: (\d+)/);
-            const chuvaMatch = data.match(/Chuva = (\w+)/);
-            const pressaoMatch = data.match(/Pressao = (\w+) Pa/);
-
-            // Verifique se as correspondências foram encontradas
-            if (umidadeMatch && temperaturaMatch && luminosidadeMatch && chuvaMatch && pressaoMatch) {
-                const umidadeSpan = document.getElementById('umidade');
-                const temperaturaSpan = document.getElementById('temperatura');
-                const luminosidadeSpan = document.getElementById('luminosidade');
-                const chuvaSpan = document.getElementById('chanceChuva');
-                const pressaoSpan = document.getElementById('pressao');
-
-                umidadeSpan.textContent = umidadeMatch[1];
-                temperaturaSpan.textContent = temperaturaMatch[1];
-                luminosidadeSpan.textContent = luminosidadeMatch[1];
-                chuvaSpan.textContent = chuvaMatch[1];
-                pressaoSpan.textContent = pressaoMatch[1];
-            } else {
-                console.error('Dados da API não correspondem ao formato esperado.');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados da API:', error);
+        <div id="dados" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; text-align: center; color: white; display: none;">
+            <p>Umidade: <span id="umidade"></span></p>
+            <p>Temperatura: <span id="temperatura"></span></p>
+            <p>Luminosidade: <span id="luminosidade"></span></p>
+            <p>Chance de Chuva: <span id="chanceChuva"></span></p>
+            <p>Pressão: <span id="pressao"></span></p>
+        </div>
+        
+        <script>
+        function showLoadingAnimation() {
+            var loadingAnimation = document.querySelector('.c-loader');
+            loadingAnimation.style.display = 'block';
+        }
+        
+        function hideLoadingAnimation() {
+            var loadingAnimation = document.querySelector('.c-loader');
+            loadingAnimation.style.display = 'none';
+        }
+        
+        // Aguarde o carregamento completo da página antes de chamar a função
+        window.addEventListener('load', function () {
+            showLoadingAnimation();
+            obterDadosDaAPI();
         });
-}
-
-// Aguarde o carregamento completo da página antes de chamar a função
-window.addEventListener('load', obterDadosDaAPI);
-
-</script>
-
+        
+        function obterDadosDaAPI() {
+            setTimeout(function () {
+                fetch('/api')
+                    .then(response => response.text())
+                    .then(data => {
+                        const umidadeMatch = data.match(/Umidade: (\d+\.\d+)%/);
+                        const temperaturaMatch = data.match(/Temperatura: (\d+)C/);
+                        const luminosidadeMatch = data.match(/Luminosidade: (\d+)/);
+                        const chuvaMatch = data.match(/Chuva = (\w+)/);
+                        const pressaoMatch = data.match(/Pressao = (\w+) Pa/);
+        
+                        if (umidadeMatch && temperaturaMatch && luminosidadeMatch && chuvaMatch && pressaoMatch) {
+                            const umidadeSpan = document.getElementById('umidade');
+                            const temperaturaSpan = document.getElementById('temperatura');
+                            const luminosidadeSpan = document.getElementById('luminosidade');
+                            const chuvaSpan = document.getElementById('chanceChuva');
+                            const pressaoSpan = document.getElementById('pressao');
+        
+                            umidadeSpan.textContent = umidadeMatch[1];
+                            temperaturaSpan.textContent = temperaturaMatch[1];
+                            luminosidadeSpan.textContent = luminosidadeMatch[1];
+                            chuvaSpan.textContent = chuvaMatch[1];
+                            pressaoSpan.textContent = pressaoMatch[1];
+                        } else {
+                            console.error('Dados da API não correspondem ao formato esperado.');
+                        }
+        
+                        hideLoadingAnimation();
+        
+                        // Agora, após a conclusão da função obterDadosDaAPI, exibimos a div
+                        document.getElementById('dados').style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar dados da API:', error);
+                        hideLoadingAnimation();
+                    });
+            }, 3000);
+        }
+        </script>
+        
 </body>
 </html>

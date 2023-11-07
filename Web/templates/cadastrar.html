@@ -16,26 +16,24 @@
     <div class="form_frente">
         <form action="/cadastrar" id="cadastrar" method="POST">
             <div class="col-md-6 offset-md-3   ">
-                <label for="Nome" class="form-label">Nome</label>
-                <input type="text" name="nome" class="form-control" >
+                <input type="text" name="nome" class="form-control" placeholder="Nome">
             </div>
             <div class="col-md-6 offset-md-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" name="email" class="form-control" >
+                <input type="text" name="email" class="form-control"placeholder="Email" >
             </div>
             <div class="col-md-6 offset-md-3">
-                <label for ="senha" class="form-label">Senha</label>
-                <input type="password" name="senha" class="form-control" >
+                <input type="password" name="senha" class="form-control" placeholder="Senha" >
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary" style="border-radius: 10px; margin-top: 10px;"> Cadastrar</button>
                 <button type="button" class="btn btn-secondary" style="border-radius: 10px; margin-top: 10px" onclick="window.location.href='/'">Voltar</button>
                 {% set mensagem = get_flashed_messages() %}
-                {% if mensagem %}
-                    <div class="flash_alerta" style="color: red;">
-                        {{ mensagem[0] }}
-                    </div>
-                {% endif %}
+{% if mensagem %}
+    <div class="flash_alerta {% if 'cadastrado com sucesso' in mensagem[0] %}flash_sucesso{% else %}flash_erro{% endif %}">
+        {{ mensagem[0] }}
+    </div>
+{% endif %}
+
             </div>
         </form>
     </div>

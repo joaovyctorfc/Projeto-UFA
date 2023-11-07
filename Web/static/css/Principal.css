@@ -17,7 +17,7 @@ font-size: 14px;
 
 /* Ou, se desejar aplicar a uma classe específica */
 .link-clara {
-color: #4d7dab; /* Cor mais clara para links com a classe "link-clara" */
+color: #a0bad3; /* Cor mais clara para links com a classe "link-clara" */
 position: relative;
 top: 10px;
 }
@@ -37,19 +37,19 @@ justify-content: center;
 
 
 .form_frente {
-text-align: center;
-padding:  100px -100px; /* Reduzir o preenchimento */
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-color: #ffffff;
-background-color: transparent; /* Fundo transparente */
-border: none; /* Remove a borda */
-padding: 0; /* Sem preenchimento */
-box-shadow: none; /* Remove a sombra */
-margin-top: 60px; /* Ajuste a margem superior conforme necessário */
-
-
-}
-
+    text-align: center;
+    padding:  100px -100px; /* Reduzir o preenchimento */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda */
+    padding: 0; /* Sem preenchimento */
+    box-shadow: none; /* Remove a sombra */
+    margin-top: 60px; /* Ajuste a margem superior conforme necessário */
+    
+    
+    }
+    
 
 .btn-primary {
     background-color: #004182;
@@ -64,5 +64,14 @@ border: 2px solid #6289b4;
 .btn-secondary {
     background-color: #6c757d;
     color: #fff;
+}
+/* Mensagens de sucesso em verde */
+.flash_sucesso {
+    color: green;
+}
+
+/* Mensagens de erro em vermelho */
+.flash_erro {
+    color: red;
 }
 
