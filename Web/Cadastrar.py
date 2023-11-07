@@ -4,7 +4,7 @@ import requests
 import json
 from flask_bcrypt import Bcrypt
 
-link = "https://projeto-ufa-default-rtdb.firebaseio.com/"
+link = "https://projeto-drone-default-rtdb.firebaseio.com/"
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)

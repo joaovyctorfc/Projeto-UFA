@@ -67,23 +67,15 @@ function hideLoadingAnimation() {
         var userEmail = "{{ session['user_email'] }}";
         var userNome = "{{ session['user_nome'] }}";
         var firebaseConfig = {
-
-apiKey: "AIzaSyCWoXcUT4RYW0rOaFIVcw-MLho9e7zb2UI",
-
-authDomain: "projeto-ufa.firebaseapp.com",
-
-databaseURL: "https://projeto-ufa-default-rtdb.firebaseio.com",
-
-projectId: "projeto-ufa",
-
-storageBucket: "projeto-ufa.appspot.com",
-
-messagingSenderId: "18862295214",
-
-appId: "1:18862295214:web:0ef2c81c0531d4bea7053f"
-
-};
-
+            apiKey: "AIzaSyCzKJQhamtH0XAJgK1gvGIFlW7MU9ujm48",
+            authDomain: "projeto-drone.firebaseapp.com",
+            databaseURL: "https://projeto-drone-default-rtdb.firebaseio.com",
+            projectId: "projeto-drone",
+            storageBucket: "projeto-drone.appspot.com",
+            messagingSenderId: "557356924152",
+            appId: "1:557356924152:web:2574dec37d71b47cb20f0d",
+            measurementId: "G-N41S4N7B8P"
+        };
 
         firebase.initializeApp(firebaseConfig);
         var messagesRef = firebase.database().ref('Checking');
