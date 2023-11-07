@@ -4,6 +4,11 @@
 #include <Adafruit_BMP280.h>
 #include <SPI.h> //INCLUSÃO DE BIBLIOTECA
 #include <MFRC522.h> //INCLUSÃO DE BIBLIOTECA
+#include <Wire.h> //INCLUSÃO DE BIBLIOTECA
+#include <Adafruit_GFX.h> //INCLUSÃO DE BIBLIOTECA
+#include <Adafruit_SSD1306.h> //INCLUSÃO DE BIBLIOTECA
+
+Adafruit_SSD1306 display = Adafruit_SSD1306(); //OBJETO DO TIPO Adafruit_SSD1306
 
 //Leitor Pressao
 Adafruit_BMP280 bmp; //I2C
@@ -31,6 +36,13 @@ void setup(){
   pinMode(pinoChuva, INPUT); //DEFINE O PINO COMO ENTRADA
   SPI.begin(); //INICIALIZA O BARRAMENTO SPI
   rfid.PCD_Init(); //INICIALIZA MFRC522
+
+  //tela
+  Wire.begin(); //INICIALIZA A BIBLIOTECA WIRE
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //INICIALIZA O DISPLAY COM ENDEREÇO I2C 0x3C
+  display.setTextColor(WHITE); //DEFINE A COR DO TEXTO
+  display.setTextSize(1); //DEFINE O TAMANHO DA FONTE DO TEXTO
+  display.clearDisplay(); //LIMPA AS INFORMAÇÕES DO DISPLAY
 
 }
 
