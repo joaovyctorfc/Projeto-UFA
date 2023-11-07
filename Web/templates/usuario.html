@@ -9,7 +9,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
     crossorigin=""></script>
     <title>Home</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/Home.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Principal.css')}}" />
 
 </head>
 
@@ -41,29 +41,46 @@
     <p>Temperatura: <span id="temperatura"></span></p>
     <p>Luminosidade: <span id="luminosidade"></span></p>
     <p>Chance de Chuva: <span id="chanceChuva"></span></p>
+    <p>Pressão: <span id="pressao"></span></p>
 </div>
 
 <script>
-    function obterDadosDaAPI() {
-        fetch('/api') 
-            .then(response => response.json())
-            .then(data => {
+ function obterDadosDaAPI() {
+    fetch('/api')
+        .then(response => response.text())
+        .then(data => {
+            // Use expressões regulares para extrair os valores
+            const umidadeMatch = data.match(/Umidade: (\d+\.\d+)%/);
+            const temperaturaMatch = data.match(/Temperatura: (\d+)C/);
+            const luminosidadeMatch = data.match(/Luminosidade: (\d+)/);
+            const chuvaMatch = data.match(/Chuva = (\w+)/);
+            const pressaoMatch = data.match(/Pressao = (\w+) Pa/);
+
+            // Verifique se as correspondências foram encontradas
+            if (umidadeMatch && temperaturaMatch && luminosidadeMatch && chuvaMatch && pressaoMatch) {
                 const umidadeSpan = document.getElementById('umidade');
                 const temperaturaSpan = document.getElementById('temperatura');
                 const luminosidadeSpan = document.getElementById('luminosidade');
-                const chanceChuvaSpan = document.getElementById('chanceChuva');
+                const chuvaSpan = document.getElementById('chanceChuva');
+                const pressaoSpan = document.getElementById('pressao');
 
-                umidadeSpan.textContent = data.umidade;
-                temperaturaSpan.textContent = data.temperatura;
-                luminosidadeSpan.textContent = data.luminosidade;
-                chanceChuvaSpan.textContent = data.chance_chuva;
-            })
-            .catch(error => {
-                console.error('Erro ao buscar dados da API:', error);
-            });
-    }
+                umidadeSpan.textContent = umidadeMatch[1];
+                temperaturaSpan.textContent = temperaturaMatch[1];
+                luminosidadeSpan.textContent = luminosidadeMatch[1];
+                chuvaSpan.textContent = chuvaMatch[1];
+                pressaoSpan.textContent = pressaoMatch[1];
+            } else {
+                console.error('Dados da API não correspondem ao formato esperado.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados da API:', error);
+        });
+}
 
-    obterDadosDaAPI();
+// Aguarde o carregamento completo da página antes de chamar a função
+window.addEventListener('load', obterDadosDaAPI);
+
 </script>
 
 </body>

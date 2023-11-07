@@ -11,7 +11,7 @@ import random
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'
 bcrypt = Bcrypt(app)
-link = "https://projeto-drone-default-rtdb.firebaseio.com/"
+link = "https://projeto-ufa-default-rtdb.firebaseio.com/"
 @app.route('/')
 def retorno():
     return render_template('login.html')
@@ -140,17 +140,16 @@ def atualizar_senha():
 
     return 'Senha atualizada com sucesso!'
 
-# Abre a conexão com a porta serial
-#ser = serial.Serial('/dev/cu.usbmodem1201', 9600)
+#*ser = serial.Serial('/dev/ttyACM0', 9600)
 
-#@app.route('/api', methods=['GET'])
-#def obter_dados():
+##@app.route('/api', methods=['GET'])
+##def obter_dados():
     # Lê uma linha da porta serial
-   # linha = ser.readline()
+    ##linha = ser.readline()
     
- #   linha_decodificada = linha.decode('utf-8').strip()
+    ##linha_decodificada = linha.decode('utf-8').strip()
     
     # Retorna os dados como JSON
-  #  return jsonify({'dados': linha_decodificada})
+    ##return jsonify({'dados': linha_decodificada})
 if __name__ == "__main__":
     app.run(debug=True)

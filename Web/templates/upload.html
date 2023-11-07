@@ -12,8 +12,8 @@
 
 
 </head>
-<nav class="navbar navbar-expand-lg bg-white ">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg" style="background-color: #1c2333;">
+        <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -31,7 +31,7 @@
 </nav>
 <body >
 
-    <h1 style="margin-top: 0px;  color: #fff;">Faça Upload dos Vídeos</h1>
+    <h1 style="margin-top: 60px;  color: #fff;">Faça Upload dos Vídeos</h1>
     <form class="container" id="contactForm" enctype="multipart/form-data">
         <div class="card">
             <div class="card-body">
@@ -53,16 +53,23 @@
     <script src="https://ajax.googleapis.com/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyCzKJQhamtH0XAJgK1gvGIFlW7MU9ujm48",
-            authDomain: "projeto-drone.firebaseapp.com",
-            databaseURL: "https://projeto-drone-default-rtdb.firebaseio.com",
-            projectId: "projeto-drone",
-            storageBucket: "projeto-drone.appspot.com",
-            messagingSenderId: "557356924152",
-            appId: "1:557356924152:web:2574dec37d71b47cb20f0d",
-             measurementId: "G-N41S4N7B8P"
-        };
+          var firebaseConfig = {
+
+apiKey: "AIzaSyCWoXcUT4RYW0rOaFIVcw-MLho9e7zb2UI",
+
+authDomain: "projeto-ufa.firebaseapp.com",
+
+databaseURL: "https://projeto-ufa-default-rtdb.firebaseio.com",
+
+projectId: "projeto-ufa",
+
+storageBucket: "projeto-ufa.appspot.com",
+
+messagingSenderId: "18862295214",
+
+appId: "1:18862295214:web:0ef2c81c0531d4bea7053f"
+
+};
         firebase.initializeApp(firebaseConfig);
         var messagesRef = firebase.database().ref('Checking');
 
