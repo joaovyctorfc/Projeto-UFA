@@ -2,7 +2,6 @@ import requests
 import json 
 
 link = "https://projeto-ufa-default-rtdb.firebaseio.com/"
-
 #Cadastrar Dados:
 #dados = {'nome':'joao','email': 'joao@gmail.com','senha':'123'}
 #criar = requests.post(f'{link}/users/.json', data=json.dumps(dados))

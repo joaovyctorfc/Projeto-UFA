@@ -2,9 +2,11 @@ from flask import Flask, request, render_template, redirect, flash,session
 import requests
 import json
 from Cadastrar import cadastrar 
+from flask_mail import Mail, Message
 ##import serial
 from flask import jsonify
 from flask_bcrypt import Bcrypt
+import random
 
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'
@@ -98,22 +100,56 @@ def upload():
         return redirect('/')
     
 
-@app.route('/senha', methods=['GET', 'POST'])
-def senha():
-   
-        return render_template('Email.html')
-  
-# Abre a conexão com a porta serial
-#ser = serial.Serial('/dev/cu.usbmodem1201', 9600)
+# Configuração do Flask-Mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'reconviewads@gmail.com'
+app.config['MAIL_PASSWORD'] = 'fdwr jxgw rvtx gsbr'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 
-#@app.route('/api', methods=['GET'])
-#def obter_dados():
+# Inicialização do Flask-Mail
+mail = Mail(app)
+
+# Gera um código de confirmação
+def gerar_codigo():
+    return str(random.randint(1000, 9999))
+
+@app.route('/senha')
+def redefinicao_senha():
+    return render_template('Email.html')
+
+@app.route('/confirmacao', methods=['POST'])
+def enviar_codigo():
+    destinatario = request.form['destinatario']
+    codigo = gerar_codigo()
+
+    msg = Message('Código de Confirmação', sender='reconviewads@gmail.com', recipients=[destinatario])
+    msg.body = f'Seu código de confirmação é: {codigo}'
+    mail.send(msg)
+
+    return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
+
+@app.route('/atualizar_senha', methods=['POST'])
+def atualizar_senha():
+    destinatario = request.form['destinatario']
+    codigo = request.form['codigo']
+    nova_senha = request.form['novaSenha']
+
+    # Aqui você verificará se o código inserido é igual ao código gerado e então atualizará a senha
+
+    return 'Senha atualizada com sucesso!'
+
+#*ser = serial.Serial('/dev/ttyACM0', 9600)
+
+##@app.route('/api', methods=['GET'])
+##def obter_dados():
     # Lê uma linha da porta serial
-   # linha = ser.readline()
+    ##linha = ser.readline()
     
- #   linha_decodificada = linha.decode('utf-8').strip()
+    ##linha_decodificada = linha.decode('utf-8').strip()
     
     # Retorna os dados como JSON
-  #  return jsonify({'dados': linha_decodificada})
+    ##return jsonify({'dados': linha_decodificada})
 if __name__ == "__main__":
     app.run(debug=True)

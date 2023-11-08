@@ -5,7 +5,6 @@ import json
 from flask_bcrypt import Bcrypt
 
 link = "https://projeto-ufa-default-rtdb.firebaseio.com/"
-
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 # Defina a chave secreta aqui
