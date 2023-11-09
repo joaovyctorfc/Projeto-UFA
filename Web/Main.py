@@ -9,6 +9,7 @@ from flask_bcrypt import Bcrypt
 import random
 
 app = Flask(__name__)
+codigos_enviados = {}
 app.secret_key = 'sua_chave_secreta_aqui'
 bcrypt = Bcrypt(app)
 link = "https://projeto-ufa-default-rtdb.firebaseio.com/"
@@ -123,6 +124,7 @@ def redefinicao_senha():
 def enviar_codigo():
     destinatario = request.form['destinatario']
     codigo = gerar_codigo()
+    codigos_enviados[destinatario] = codigo
 
     msg = Message('Código de Confirmação', sender='reconviewads@gmail.com', recipients=[destinatario])
     msg.body = f'Seu código de confirmação é: {codigo}'
@@ -133,12 +135,16 @@ def enviar_codigo():
 @app.route('/atualizar_senha', methods=['POST'])
 def atualizar_senha():
     destinatario = request.form['destinatario']
-    codigo = request.form['codigo']
+    codigo_digitado = request.form['codigo']
     nova_senha = request.form['novaSenha']
 
-    # Aqui você verificará se o código inserido é igual ao código gerado e então atualizará a senha
+    if destinatario in codigos_enviados and codigos_enviados[destinatario] == codigo_digitado:
 
-    return 'Senha atualizada com sucesso!'
+     del codigos_enviados[destinatario]
+
+     return 'Senha atualizada com sucesso!'
+    else:
+        return 'Código inválido. Tente novamente.'
 
 #*ser = serial.Serial('/dev/ttyACM0', 9600)
 
