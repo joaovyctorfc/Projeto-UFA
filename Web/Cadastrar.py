@@ -32,7 +32,7 @@ def cadastrar():
             data = response.json()
 
             if data:
-                emails_existentes = [user['email'] for user in data.values()]
+                emails_existentes = [user.get('email') for user in data.values() if 'email' in user]
                 if email in emails_existentes:
                     flash('E-mail já cadastrado.')
                 else:
@@ -55,6 +55,7 @@ def cadastrar():
                     flash('Falha ao cadastrar usuário')
 
     return render_template('cadastrar.html')
+
 
 
 

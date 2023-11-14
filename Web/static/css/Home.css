@@ -6,7 +6,11 @@
         
         }
                   
-               
+        .nav-link.active1 {
+          color: red;
+      }
+      
+     
 .loading-animation {
     align-items: center;
     display: flex;

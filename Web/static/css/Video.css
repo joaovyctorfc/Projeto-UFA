@@ -12,6 +12,11 @@
     bottom: 0;
     
   }
+            
+  .nav-link.active1 {
+    color: red;
+}
+
   
   .video-with-border {
       border: 1px solid #fff;
@@ -31,7 +36,7 @@
     width: 50px;
     position: absolute;
     top: 50%;
-    left: 45%;
+    left: 50%;
   
   }
   
@@ -52,7 +57,6 @@
   h1 {
       text-align: center;
       margin-top: 100px; /* Ajuste a margem superior conforme necessário */
-      margin-right: 75px;
   
   }
   .navbar-nav .nav-link {
@@ -112,7 +116,7 @@
             background-color: #004182;
             color: #fff;      
       border: 2px solid #6289b4;   
-      margin-right: 125px;
+      margin-right: 0px;
       
       bottom: -50;
           }
@@ -123,9 +127,15 @@
               color: #fff;
           }
        
-      
+          .row {
+            margin-left: 95px; /* Adicione a margem desejada à esquerda dos elementos da linha */
+        }
+        
   .video-container {
       text-align: center;
+      justify-content: flex-end; 
+      align-items: center;
+      margin-right: 50px;
   }
   
   .video-checkbox {

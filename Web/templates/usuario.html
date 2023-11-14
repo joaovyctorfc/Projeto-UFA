@@ -14,7 +14,6 @@
 </head>
 
 <body>
-  
     <nav class="navbar navbar-expand-lg" style="background-color: #1c2333;">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -23,32 +22,38 @@
                         <a class="nav-link active" aria-current="page" href="/home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class ="nav-link active" aria-current="page" href="/">Sair</a>
+                        <a class="nav-link active" aria-current="page" href="/Video">Videos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/Video">Video</a>
+                        <a class="nav-link active" aria-current="page" href="/Upload">Upload</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active1" aria-current="page" href="/">Sair</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
     <div class="c-loader"></div>
 
-    <h1 style="margin-top: 0px;  color: #fff;">
-        Home</h1>
 
-        <div id="dados" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; text-align: center; color: white; display: none;">
-            <p>Umidade: <span id="umidade"></span></p>
-            <p>Temperatura: <span id="temperatura"></span></p>
-            <p>Luminosidade: <span id="luminosidade"></span></p>
-            <p>Chance de Chuva: <span id="chanceChuva"></span></p>
-            <p>Pressão: <span id="pressao"></span></p>
+
+        <div id="dados" style="position: absolute;top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; text-align: center; color: white; display: none;">
+            <p>Umidade: <span id="umidade"></span> 💧</p>
+            <p>Temperatura: <span id="temperatura"></span>°C 🌡️</p>
+            <p>Luminosidade: <span id="luminosidade"></span> 🔅</p>
+            <p>Chuva: <span id="chanceChuva"></span> ⛈️</p>
         </div>
         
         <script>
+
         function showLoadingAnimation() {
             var loadingAnimation = document.querySelector('.c-loader');
             loadingAnimation.style.display = 'block';
+
         }
         
         function hideLoadingAnimation() {
@@ -58,8 +63,9 @@
         
         // Aguarde o carregamento completo da página antes de chamar a função
         window.addEventListener('load', function () {
-            showLoadingAnimation();
             obterDadosDaAPI();
+
+            showLoadingAnimation();
         });
         
         function obterDadosDaAPI() {
@@ -70,21 +76,20 @@
                         const umidadeMatch = data.match(/Umidade: (\d+\.\d+)%/);
                         const temperaturaMatch = data.match(/Temperatura: (\d+)C/);
                         const luminosidadeMatch = data.match(/Luminosidade: (\d+)/);
-                        const chuvaMatch = data.match(/Chuva = (\w+)/);
-                        const pressaoMatch = data.match(/Pressao = (\w+) Pa/);
+                        const chuvaMatch = data.match(/Chuva: (\w+)/);
         
-                        if (umidadeMatch && temperaturaMatch && luminosidadeMatch && chuvaMatch && pressaoMatch) {
+                        if (umidadeMatch && temperaturaMatch && luminosidadeMatch && chuvaMatch ) {
                             const umidadeSpan = document.getElementById('umidade');
                             const temperaturaSpan = document.getElementById('temperatura');
                             const luminosidadeSpan = document.getElementById('luminosidade');
                             const chuvaSpan = document.getElementById('chanceChuva');
-                            const pressaoSpan = document.getElementById('pressao');
         
                             umidadeSpan.textContent = umidadeMatch[1];
                             temperaturaSpan.textContent = temperaturaMatch[1];
                             luminosidadeSpan.textContent = luminosidadeMatch[1];
                             chuvaSpan.textContent = chuvaMatch[1];
-                            pressaoSpan.textContent = pressaoMatch[1];
+
+
                         } else {
                             console.error('Dados da API não correspondem ao formato esperado.');
                         }
@@ -98,7 +103,7 @@
                         console.error('Erro ao buscar dados da API:', error);
                         hideLoadingAnimation();
                     });
-            }, 3000);
+            }, 2000);
         }
         </script>
         

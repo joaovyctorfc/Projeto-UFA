@@ -11,35 +11,35 @@
 <body>
  
     
-    <h1 style="margin-top: 0px;  color: #fff;">Cadastrar</h1>
 
     <div class="form_frente">
+            <div class="login-header" style="color: #fff; padding-top: 50px;">
+                <h1>Cadastrar</h1>
+            </div>
         <form action="/cadastrar" id="cadastrar" method="POST">
-            <div class="col-md-6 offset-md-3   ">
-                <input type="text" name="nome" class="form-control" placeholder="Nome">
+            <div class="custom-width">
+                <input type="text" name="nome" class="form-control" id="inputName4" placeholder="Nome">
             </div>
-            <div class="col-md-6 offset-md-3">
-                <input type="text" name="email" class="form-control"placeholder="Email" >
+            <div class="custom-width">
+                <input type="text" name="email" class="form-control"  id="inputEmail4" placeholder="Email">
             </div>
-            <div class="col-md-6 offset-md-3">
-                <input type="password" name="senha" class="form-control" placeholder="Senha" >
+            <div class="custom-width">
+                <input type="password" name="senha" class="form-control" id="inputPassword4" placeholder="Senha">
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-primary" style="border-radius: 10px; margin-top: 10px;"> Cadastrar</button>
-                <button type="button" class="btn btn-secondary" style="border-radius: 10px; margin-top: 10px" onclick="window.location.href='/'">Voltar</button>
-                {% set mensagem = get_flashed_messages() %}
-{% if mensagem %}
-    <div class="flash_alerta {% if 'cadastrado com sucesso' in mensagem[0] %}flash_sucesso{% else %}flash_erro{% endif %}">
-        {{ mensagem[0] }}
-    </div>
-{% endif %}
+                <button type="submit" class="btn btn-primary"  style="border-radius: 10px; margin-top: 25px;"> Cadastrar</button>
+                <button type="button" class="btn btn-secondary"  style="border-radius: 10px; margin-top: 25px;" onclick="window.location.href='/'">Voltar</button>
+          
 
             </div>
         </form>
+        {% set mensagem = get_flashed_messages() %}
+        {% if mensagem %}
+            <div class="flash_alerta {% if 'cadastrado com sucesso' in mensagem[0] %}flash_sucesso{% else %}flash_erro{% endif %}"style="margin-top: 10px;">
+                {{ mensagem[0] }}
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>
 
-
-</body>
-</html>

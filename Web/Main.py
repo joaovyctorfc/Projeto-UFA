@@ -28,16 +28,17 @@ def login():
         data = response.json()
 
         if data:
-            usuario = next((user for user in data.values() if user['email'] == email), None)
-            if usuario:
-                senha_criptografada = usuario['senha']
+            usuario = next((user for user in data.values() if user.get('email') == email), None)
 
-                if bcrypt.check_password_hash(senha_criptografada, senha):
+            if usuario:
+                senha_criptografada = usuario.get('senha')
+
+                if senha_criptografada and bcrypt.check_password_hash(senha_criptografada, senha):
                     session['logged_in'] = True
                     session['user_email'] = email
-                    session['user_nome'] = usuario['nome']  
+                    session['user_nome'] = usuario.get('nome')  
 
-                    return render_template('usuario.html', user_email=email, user_nome=usuario['nome'])
+                    return render_template('usuario.html', user_email=email, user_nome=usuario.get('nome'))
                 else:
                     flash('Senha incorreta.')
                     return redirect('/')
@@ -47,7 +48,9 @@ def login():
         else:
             flash('Nenhum usuário cadastrado.')
             return redirect('/')
-    return redirect('/')
+    else:
+        return redirect('/')
+
 
     #Chamar função Cadastro do banco de Dados
 @app.route('/cadastrar', methods=['GET', 'POST'])
