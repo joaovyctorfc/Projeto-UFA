@@ -21,6 +21,7 @@
   .video-with-border {
       border: 1px solid #fff;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+
   }
   
   a {
@@ -116,9 +117,7 @@
             background-color: #004182;
             color: #fff;      
       border: 2px solid #6289b4;   
-      margin-right: 0px;
-      
-      bottom: -50;
+      transform: scale(0.8); /* Reduz o tamanho do botão */
           }
           .btn-primary:hover {
               background-color: #007bff; }
@@ -128,7 +127,7 @@
           }
        
           .row {
-            margin-left: 95px; /* Adicione a margem desejada à esquerda dos elementos da linha */
+            margin-left: 98px; /* Adicione a margem desejada à esquerda dos elementos da linha */
         }
         
   .video-container {
@@ -136,6 +135,7 @@
       justify-content: flex-end; 
       align-items: center;
       margin-right: 50px;
+      
   }
   
   .video-checkbox {
@@ -145,26 +145,30 @@
   }
   
   .video-label {
-      font-size: 16px;
+      font-size: 14px;
       vertical-align: middle;
+
   }
   
   .video-container {
       display: flex;
       justify-content: center;
       align-items: center;
+      
   }
   
   .video {
-      width: 100%;
+      width: 80%;
       max-width: 400px;
       height: auto;
+      display : "block";
+      margin-Top :"50px";
   }
   
   .video-label {
       display: flex;
       align-items: center;
-      margin-top: 10px;
+      margin-top: -30px;
   }
   
   .custom-checkbox {
