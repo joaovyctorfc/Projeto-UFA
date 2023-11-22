@@ -114,6 +114,8 @@ app.config['MAIL_USE_SSL'] = True
 # Inicialização do Flask-Mail
 mail = Mail(app)
 
+codigos_de_confirmacao = {}
+
 # Gera um código de confirmação
 def gerar_codigo():
     return str(random.randint(1000, 9999))
@@ -126,6 +128,7 @@ def redefinicao_senha():
 def enviar_codigo():
     destinatario = request.form['destinatario']
     codigo = gerar_codigo()
+    codigos_de_confirmacao[destinatario] = codigo
 
     msg = Message('Código de Confirmação', sender='reconviewads@gmail.com', recipients=[destinatario])
     msg.body = f'Seu código de confirmação é: {codigo}'
@@ -133,15 +136,40 @@ def enviar_codigo():
 
     return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
 
+def encontrar_usuario_por_email(email, link):
+    response = requests.get(f'{link}/users.json')
+    data = response.json()
+
+    for key, user_data in data.items():
+        if user_data.get('email') == email:
+            return key  # Retorna a chave (ID) do usuário no Firebase
+
+    return None
+
 @app.route('/atualizar_senha', methods=['POST'])
 def atualizar_senha():
     destinatario = request.form['destinatario']
     codigo = request.form['codigo']
     nova_senha = request.form['novaSenha']
 
-    # Aqui você verificará se o código inserido é igual ao código gerado e então atualizará a senha
+    pasta_do_destinatario = encontrar_usuario_por_email(destinatario, link)
 
-    return 'Senha atualizada com sucesso!'
+    response = requests.get(f'{link}/users.json')
+    data = response.json()
+    
+    codigo_gerado = codigos_de_confirmacao.get(destinatario)
+
+    if destinatario in [user.get('email') for user in data.values()]:
+
+        if codigo_gerado is not None and codigo == codigo_gerado:
+            senha_criptografada = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
+            dados = {'senha': senha_criptografada}
+            requests.patch(f'{link}/users/{pasta_do_destinatario}/.json', data=json.dumps(dados))
+            return 'Senha atualizada com sucesso!'
+        else:
+            return 'Código incorreto. Tente novamente.'
+    else:
+        return 'Email não encontrado.'
 
 #*ser = serial.Serial('/dev/ttyACM0', 9600)
 
