@@ -24,20 +24,32 @@ mail = Mail(app)
 
 @app.route('/')
 def index():
-    return render_template('Email.html')
+    try:
+        return render_template('Email.html')
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /: {e}")
+        flash('Ocorreu um erro durante a exibição da página de e-mail.')
+        return render_template('Email.html')
 
 @app.route('/enviar-email', methods=['POST'])
 def enviar_email():
-    destinatario = request.form['destinatario']
-    assunto = request.form['assunto']
-    corpo = request.form['corpo']
+    try:
+        destinatario = request.form['destinatario']
+        assunto = request.form['assunto']
+        corpo = request.form['corpo']
 
-    msg = Message(assunto, sender='seu_email@gmail.com', recipients=[destinatario])
-    msg.body = corpo
+        msg = Message(assunto, sender='seu_email@gmail.com', recipients=[destinatario])
+        msg.body = corpo
 
-    mail.send(msg)
+        mail.send(msg)
 
-    return 'E-mail enviado com sucesso!'
+        return 'E-mail enviado com sucesso!'
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /enviar-email: {e}")
+        flash('Ocorreu um erro ao enviar o e-mail.')
+        return 'Erro ao enviar o e-mail.'
 
 if __name__ == '__main__':
     app.run(debug=True)

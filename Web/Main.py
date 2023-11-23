@@ -20,86 +20,115 @@ def retorno():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        senha = request.form.get('senha')
-       
-        response = requests.get(f'{link}/users.json')
-        data = response.json()
+    try:
+        if request.method == 'POST':
+            email = request.form.get('email')
+            senha = request.form.get('senha')
 
-        if data:
-            usuario = next((user for user in data.values() if user.get('email') == email), None)
+            response = requests.get(f'{link}/users.json')
+            response.raise_for_status()  # Verifica se houve um erro na requisição
 
-            if usuario:
-                senha_criptografada = usuario.get('senha')
+            data = response.json()
 
-                if senha_criptografada and bcrypt.check_password_hash(senha_criptografada, senha):
-                    session['logged_in'] = True
-                    session['user_email'] = email
-                    session['user_nome'] = usuario.get('nome')  
+            if data:
+                usuario = next((user for user in data.values() if user.get('email') == email), None)
 
-                    return render_template('usuario.html', user_email=email, user_nome=usuario.get('nome'))
+                if usuario:
+                    senha_criptografada = usuario.get('senha')
+
+                    if senha_criptografada and bcrypt.check_password_hash(senha_criptografada, senha):
+                        session['logged_in'] = True
+                        session['user_email'] = email
+                        session['user_nome'] = usuario.get('nome')
+
+                        return render_template('usuario.html', user_email=email, user_nome=usuario.get('nome'))
+                    else:
+                        flash('Senha incorreta.')
+                        return redirect('/')
                 else:
-                    flash('Senha incorreta.')
+                    flash('E-mail não encontrado.')
                     return redirect('/')
             else:
-                flash('E-mail não encontrado.')
+                flash('Nenhum usuário cadastrado.')
                 return redirect('/')
         else:
-            flash('Nenhum usuário cadastrado.')
             return redirect('/')
-    else:
+    except Exception as e:
+       
+        print(f"Erro durante o login: {e}")
+        flash('Ocorreu um erro durante o login.')
         return redirect('/')
 
 
-    #Chamar função Cadastro do banco de Dados
+    
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar_rota():
-    return cadastrar()
-#############################
+    try:
+        return cadastrar()
+    except Exception as e:
+       
+        print(f"Erro durante o cadastro: {e}")
+        flash('Ocorreu um erro durante o cadastro.')
+        return redirect('/')
+
 @app.route('/Video', methods=['GET', 'POST'])
 def video():
-    if 'logged_in' in session and session['logged_in']:
-        user_email = session['user_email']  
-        user_nome = session['user_nome']
-        
-        # Criar um dicionário com os dados do vídeo
-        video_data = {
-            'title': 'Meu Vídeo',
-            'imageurl': 'URL_do_video.mp4',
-            'email': user_email  # Associar o vídeo ao e-mail do usuário
-        }
+    try:
+        if 'logged_in' in session and session['logged_in']:
+            user_email = session['user_email']
+            user_nome = session['user_nome']
 
-        # Adicionar video_data ao Firebase Realtime Database ou Firestore
-        # Certifique-se de usar o método apropriado aqui para adicionar dados ao Firebase.
+            # Criar um dicionário com os dados do vídeo
+            video_data = {
+                'title': 'Meu Vídeo',
+                'imageurl': 'URL_do_video.mp4',
+                'email': user_email  # Associar o vídeo ao e-mail do usuário
+            }
 
-        return render_template('Video.html', user_email=user_email, user_nome=user_nome)
-    else:
+            # Adicionar video_data ao Firebase Realtime Database ou Firestore
+            # Certifique-se de usar o método apropriado aqui para adicionar dados ao Firebase.
+
+            return render_template('Video.html', user_email=user_email, user_nome=user_nome)
+        else:
+            return redirect('/')
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro durante a exibição de vídeo: {e}")
+        flash('Ocorreu um erro durante a exibição de vídeo.')
         return redirect('/')
  
 
-
-########
-
-
+#########
 @app.route('/home', methods=['POST', 'GET'])
 def home():
-    if 'logged_in' in session and session['logged_in']:
-        user_email = session['user_email']  
-        user_nome = session['user_nome']  
+    try:
+        if 'logged_in' in session and session['logged_in']:
+            user_email = session['user_email']  
+            user_nome = session['user_nome']  
 
-        return render_template('usuario.html', user_email=user_email, user_nome=user_nome)
-    else:
+            return render_template('usuario.html', user_email=user_email, user_nome=user_nome)
+        else:
+            return redirect('/')
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /home: {e}")
+        flash('Ocorreu um erro na página de usuário.')
         return redirect('/')
     
 @app.route('/Upload', methods=['GET', 'POST'])
 def upload():
-    if 'logged_in' in session and session['logged_in']:
-        user_email = session['user_email']  
-        user_nome = session['user_nome']   
+    try:
+        if 'logged_in' in session and session['logged_in']:
+            user_email = session['user_email']  
+            user_nome = session['user_nome']   
 
-        return render_template('upload.html', user_email=user_email, user_nome=user_nome)
-    else:
+            return render_template('upload.html', user_email=user_email, user_nome=user_nome)
+        else:
+            return redirect('/')
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /Upload: {e}")
+        flash('Ocorreu um erro na página de upload.')
         return redirect('/')
     
 
@@ -122,19 +151,31 @@ def gerar_codigo():
 
 @app.route('/senha')
 def redefinicao_senha():
-    return render_template('Email.html')
+    try:
+        return render_template('Email.html')
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /senha: {e}")
+        flash('Ocorreu um erro na redefinição de senha.')
+        return redirect('/')
 
 @app.route('/confirmacao', methods=['POST'])
 def enviar_codigo():
-    destinatario = request.form['destinatario']
-    codigo = gerar_codigo()
-    codigos_de_confirmacao[destinatario] = codigo
+    try:
+        destinatario = request.form['destinatario']
+        codigo = gerar_codigo()
+        codigos_de_confirmacao[destinatario] = codigo
 
-    msg = Message('Código de Confirmação', sender='reconviewads@gmail.com', recipients=[destinatario])
-    msg.body = f'Seu código de confirmação é: {codigo}'
-    mail.send(msg)
+        msg = Message('Código de Confirmação', sender='reconviewads@gmail.com', recipients=[destinatario])
+        msg.body = f'Seu código de confirmação é: {codigo}'
+        mail.send(msg)
 
-    return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
+        return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /confirmacao: {e}")
+        flash('Ocorreu um erro ao enviar o código de confirmação.')
+        return redirect('/')
 
 def encontrar_usuario_por_email(email, link):
     response = requests.get(f'{link}/users.json')
@@ -148,28 +189,35 @@ def encontrar_usuario_por_email(email, link):
 
 @app.route('/atualizar_senha', methods=['POST'])
 def atualizar_senha():
-    destinatario = request.form['destinatario']
-    codigo = request.form['codigo']
-    nova_senha = request.form['novaSenha']
+    try:
+        destinatario = request.form['destinatario']
+        codigo = request.form['codigo']
+        nova_senha = request.form['novaSenha']
 
-    pasta_do_destinatario = encontrar_usuario_por_email(destinatario, link)
+        pasta_do_destinatario = encontrar_usuario_por_email(destinatario, link)
 
-    response = requests.get(f'{link}/users.json')
-    data = response.json()
-    
-    codigo_gerado = codigos_de_confirmacao.get(destinatario)
+        response = requests.get(f'{link}/users.json')
+        response.raise_for_status()  # Verifica se houve um erro na requisição
+        data = response.json()
 
-    if destinatario in [user.get('email') for user in data.values()]:
+        codigo_gerado = codigos_de_confirmacao.get(destinatario)
 
-        if codigo_gerado is not None and codigo == codigo_gerado:
-            senha_criptografada = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
-            dados = {'senha': senha_criptografada}
-            requests.patch(f'{link}/users/{pasta_do_destinatario}/.json', data=json.dumps(dados))
-            return 'Senha atualizada com sucesso!'
+        if destinatario in [user.get('email') for user in data.values()]:
+            if codigo_gerado is not None and codigo == codigo_gerado:
+                senha_criptografada = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
+                dados = {'senha': senha_criptografada}
+                requests.patch(f'{link}/users/{pasta_do_destinatario}/.json', data=json.dumps(dados))
+                return 'Senha atualizada com sucesso!'
+            else:
+                return 'Código incorreto. Tente novamente.'
         else:
-            return 'Código incorreto. Tente novamente.'
-    else:
-        return 'Email não encontrado.'
+            return 'Email não encontrado.'
+    except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /atualizar_senha: {e}")
+        flash('Ocorreu um erro ao atualizar a senha.')
+        return redirect('/')
+
 
 #*ser = serial.Serial('/dev/ttyACM0', 9600)
 
