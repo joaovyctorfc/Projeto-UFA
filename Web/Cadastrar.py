@@ -20,14 +20,28 @@ def cadastrar():
         nome = request.form.get('nome')
         email = request.form.get('email')
         senha = request.form.get('senha')
+        senha_confirmacao = request.form.get('senha1')  # Nova variável para a senha de confirmação
 
-        if not nome or not email or not senha:
+        # Verificação se os campos estão preenchidos
+        if not nome or not email or not senha or not senha_confirmacao:
             flash('Preencha todos os campos.')
+            return render_template('cadastrar.html')
+
+        # Verificação do formato do e-mail
         elif "@" not in email or email.split("@")[1].split(".")[0] not in lista_provedores:
             flash('Formato de email inválido')
+            return render_template('cadastrar.html')
+
+        # Verificação se as senhas coincidem
+        elif senha != senha_confirmacao:
+            flash('As senhas não coincidem.')
+            return render_template('cadastrar.html')
+
         else:
             senha_criptografada = bcrypt.generate_password_hash(senha).decode('utf-8')
             
+            response = requests.get(f'{link}/users.json')
+            data = response.json()
             response = requests.get(f'{link}/users.json')
             data = response.json()
 
