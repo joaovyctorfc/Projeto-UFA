@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, flash,session
 import requests
-import json
+import json,re
 from Cadastrar import cadastrar 
 from flask_mail import Mail, Message
 ##import serial
@@ -162,11 +162,15 @@ def redefinicao_senha():
 @app.route('/confirmacao', methods=['POST'])
 def enviar_codigo():
     try:
+        lista_provedores = ["hotmail", "gmail", "outlook"]
+
         destinatario = request.form['destinatario']
         if not destinatario:
             flash('Por favor, insira um endereço de e-mail.', 'error')
             return render_template('Email.html')
-
+        elif "@" not in destinatario or destinatario.split("@")[1].split(".")[0] not in lista_provedores:
+            flash('Por favor, insira um endereço de e-mail válido.', 'error')
+            return render_template('Email.html')
         codigo = gerar_codigo()
         codigos_de_confirmacao[destinatario] = codigo
 
