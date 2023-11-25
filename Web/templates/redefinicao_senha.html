@@ -17,13 +17,13 @@
     <form action="/atualizar_senha" method="post">
         <input type="hidden" id="destinatario" name="destinatario" value="{{ destinatario }}">
         <div class="custom-width">
-            <input type="text" name="codigo" class="form-control"  id="codigo" placeholder="Código" required>
+            <input type="text" name="codigo" class="form-control"  id="codigo" placeholder="Código" >
         </div>
 
 
 
         <div class="custom-width">
-            <input type="password" name="novaSenha" class="form-control"  id="novaSenha" placeholder="Nova Senha" required>
+            <input type="password" name="novaSenha" class="form-control"  id="novaSenha" placeholder="Nova Senha" >
         </div>
 
     
@@ -34,6 +34,11 @@
 
     </div>
     </form>
-
+    {% set mensagem = get_flashed_messages() %}
+    {% if mensagem %}
+        <div class="flash_alerta {% if 'Senha atualizada com sucesso!' in mensagem[0] %}flash_sucesso{% else %}flash_erro{% endif %}"style="margin-top: 10px;">
+            {{ mensagem[0] }}
+        </div>
+    {% endif %}
 </body>
 </html>

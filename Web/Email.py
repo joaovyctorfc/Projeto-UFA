@@ -44,12 +44,12 @@ def enviar_email():
 
         mail.send(msg)
 
-        return 'E-mail enviado com sucesso!'
+        flash( 'E-mail enviado com sucesso!')
     except Exception as e:
         # Trate ou registre o erro conforme necessário
         print(f"Erro na rota /enviar-email: {e}")
         flash('Ocorreu um erro ao enviar o e-mail.')
-        return 'Erro ao enviar o e-mail.'
+        flash('Erro ao enviar o e-mail.')
 
 if __name__ == '__main__':
     app.run(debug=True)

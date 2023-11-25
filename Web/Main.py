@@ -163,6 +163,10 @@ def redefinicao_senha():
 def enviar_codigo():
     try:
         destinatario = request.form['destinatario']
+        if not destinatario:
+            flash('Por favor, insira um endereço de e-mail.', 'error')
+            return render_template('Email.html')
+
         codigo = gerar_codigo()
         codigos_de_confirmacao[destinatario] = codigo
 
@@ -171,11 +175,13 @@ def enviar_codigo():
         mail.send(msg)
 
         return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
+    
     except Exception as e:
         # Trate ou registre o erro conforme necessário
         print(f"Erro na rota /confirmacao: {e}")
-        flash('Ocorreu um erro ao enviar o código de confirmação.')
-        return redirect('/')
+        flash('Ocorreu um erro ao enviar o código de confirmação.', 'error')
+   
+  
 
 def encontrar_usuario_por_email(email, link):
     response = requests.get(f'{link}/users.json')
@@ -207,16 +213,21 @@ def atualizar_senha():
                 senha_criptografada = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
                 dados = {'senha': senha_criptografada}
                 requests.patch(f'{link}/users/{pasta_do_destinatario}/.json', data=json.dumps(dados))
-                return 'Senha atualizada com sucesso!'
+                flash( 'Senha atualizada com sucesso!')
+
             else:
-                return 'Código incorreto. Tente novamente.'
+                flash ('Código incorreto. Mande novamente o código.')
+                return render_template('redefinicao_senha.html')
+
         else:
-            return 'Email não encontrado.'
+             flash ( 'Email não encontrado.')
+        return render_template('redefinicao_senha.html')
+
     except Exception as e:
         # Trate ou registre o erro conforme necessário
         print(f"Erro na rota /atualizar_senha: {e}")
         flash('Ocorreu um erro ao atualizar a senha.')
-        return redirect('/')
+        return render_template('redefinicao_senha.html')
 
 
 #*ser = serial.Serial('/dev/ttyACM0', 9600)
