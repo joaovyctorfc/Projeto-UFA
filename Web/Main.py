@@ -203,6 +203,7 @@ def atualizar_senha():
         destinatario = request.form['destinatario']
         codigo = request.form['codigo']
         nova_senha = request.form['novaSenha']
+        senha_confirmacao = request.form.get('senha1')  # Nova variável para a senha de confirmação
 
         pasta_do_destinatario = encontrar_usuario_por_email(destinatario, link)
 
@@ -213,12 +214,14 @@ def atualizar_senha():
         codigo_gerado = codigos_de_confirmacao.get(destinatario)
 
         if destinatario in [user.get('email') for user in data.values()]:
-            if codigo_gerado is not None and codigo == codigo_gerado:
+            if codigo_gerado is not None and codigo == codigo_gerado and nova_senha==senha_confirmacao:
                 senha_criptografada = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
                 dados = {'senha': senha_criptografada}
                 requests.patch(f'{link}/users/{pasta_do_destinatario}/.json', data=json.dumps(dados))
                 flash( 'Senha atualizada com sucesso!')
-
+            elif nova_senha!= senha_confirmacao:
+                flash('As senhas não coincidem.')
+                return render_template('redefinicao_senha.html')
             else:
                 flash ('Código incorreto. Mande novamente o código.')
                 return render_template('redefinicao_senha.html')
