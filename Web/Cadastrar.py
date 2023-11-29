@@ -17,11 +17,9 @@ def retorno():
         return render_template('login.html')
     except Exception as e:
         # Trate ou registre o erro conforme necessário
-        mensagem_erro = "Ocorreu um erro ao fazer Login."
-        detalhes_erro = str(e)  # Converta o erro para uma string
-
-        flash(mensagem_erro)
-        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
+        print(f"Erro na rota /: {e}")
+        flash('Ocorreu um erro durante a exibição da página de login.')
+        return render_template('login.html')
 
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar():
@@ -83,11 +81,10 @@ def cadastrar():
         return render_template('cadastrar.html')
 
     except Exception as e:
-        mensagem_erro = "Ocorreu um erro a tentativa de cadastro."
-        detalhes_erro = str(e)  # Converta o erro para uma string
-
-        flash(mensagem_erro)
-        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /cadastrar: {e}")
+        flash('Ocorreu um erro durante o cadastro.')
+        return render_template('cadastrar.html')
 
 
 
