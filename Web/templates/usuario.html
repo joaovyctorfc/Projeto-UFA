@@ -64,6 +64,7 @@
         // Aguarde o carregamento completo da página antes de chamar a função
         window.addEventListener('load', function () {
             obterDadosDaAPI();
+            atualizarDadosACadaSegundo(); // Inicia a atualização dos dados
 
             showLoadingAnimation();
         });
@@ -105,6 +106,15 @@
                     });
             }, 2000);
         }
+        function atualizarDadosACadaSegundo() {
+    obterDadosDaAPI(); // Chama a função para obter dados imediatamente
+
+    setInterval(() => {
+        obterDadosDaAPI(); // Chama a função a cada segundo para atualizar os dados
+    }, 1000); // Atualiza a cada 1 segundo (1000 milissegundos)
+}
+
+
         </script>
         
 </body>

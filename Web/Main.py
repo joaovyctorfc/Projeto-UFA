@@ -3,7 +3,7 @@ import requests
 import json,re
 from Cadastrar import cadastrar 
 from flask_mail import Mail, Message
-##import serial
+import serial
 from flask import jsonify
 from flask_bcrypt import Bcrypt
 import random
@@ -237,16 +237,16 @@ def atualizar_senha():
         return render_template('redefinicao_senha.html')
 
 
-#*ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
-##@app.route('/api', methods=['GET'])
-##def obter_dados():
+@app.route('/api', methods=['GET'])
+def obter_dados():
     # Lê uma linha da porta serial
-    ##linha = ser.readline()
+    linha = ser.readline()
     
-    ##linha_decodificada = linha.decode('utf-8').strip()
+    linha_decodificada = linha.decode('utf-8').strip()
     
     # Retorna os dados como JSON
-    ##return jsonify({'dados': linha_decodificada})
+    return jsonify({'dados': linha_decodificada})
 if __name__ == "__main__":
     app.run(debug=True)
