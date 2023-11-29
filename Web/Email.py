@@ -27,10 +27,11 @@ def index():
     try:
         return render_template('Email.html')
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /: {e}")
-        flash('Ocorreu um erro durante a exibição da página de e-mail.')
-        return render_template('Email.html')
+        mensagem_erro = "Ocorreu um erro ao processar a solicitação."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
 
 @app.route('/enviar-email', methods=['POST'])
 def enviar_email():
@@ -46,10 +47,11 @@ def enviar_email():
 
         flash( 'E-mail enviado com sucesso!')
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /enviar-email: {e}")
-        flash('Ocorreu um erro ao enviar o e-mail.')
-        flash('Erro ao enviar o e-mail.')
+        mensagem_erro = "Ocorreu um erro ao enviar o Email."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
 
 if __name__ == '__main__':
     app.run(debug=True)

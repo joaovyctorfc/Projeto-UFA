@@ -54,10 +54,11 @@ def login():
         else:
             return redirect('/')
     except Exception as e:
-       
-        print(f"Erro durante o login: {e}")
-        flash('Ocorreu um erro durante o login.')
-        return redirect('/')
+        mensagem_erro = "Ocorreu um erro a tentativa de acesso."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
 
 
     
@@ -66,10 +67,11 @@ def cadastrar_rota():
     try:
         return cadastrar()
     except Exception as e:
-       
-        print(f"Erro durante o cadastro: {e}")
-        flash('Ocorreu um erro durante o cadastro.')
-        return redirect('/')
+        mensagem_erro = "Ocorreu um erro ao processar a solicitação."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
 
 @app.route('/Video', methods=['GET', 'POST'])
 def video():
@@ -92,10 +94,11 @@ def video():
         else:
             return redirect('/')
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro durante a exibição de vídeo: {e}")
-        flash('Ocorreu um erro durante a exibição de vídeo.')
-        return redirect('/')
+        mensagem_erro = "Ocorreu um erro ao carregar os vídeos."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
  
 
 #########
@@ -110,10 +113,11 @@ def home():
         else:
             return redirect('/')
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /home: {e}")
-        flash('Ocorreu um erro na página de usuário.')
-        return redirect('/')
+        mensagem_erro = "Ocorreu um erro ao processar a solicitação."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
     
 @app.route('/Upload', methods=['GET', 'POST'])
 def upload():
@@ -126,10 +130,11 @@ def upload():
         else:
             return redirect('/')
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /Upload: {e}")
-        flash('Ocorreu um erro na página de upload.')
-        return redirect('/')
+        mensagem_erro = "Ocorreu um erro ao fazer upload."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
     
 
 # Configuração do Flask-Mail
@@ -154,10 +159,11 @@ def redefinicao_senha():
     try:
         return render_template('Email.html')
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /senha: {e}")
-        flash('Ocorreu um erro na redefinição de senha.')
-        return redirect('/')
+        mensagem_erro = "Ocorreu um erro ao processar a solicitação."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
 
 @app.route('/confirmacao', methods=['POST'])
 def enviar_codigo():
@@ -181,9 +187,11 @@ def enviar_codigo():
         return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
     
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /confirmacao: {e}")
-        flash('Ocorreu um erro ao enviar o código de confirmação.', 'error')
+        mensagem_erro = "Ocorreu um erro ao fazer confirmação."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
    
   
 
@@ -231,10 +239,11 @@ def atualizar_senha():
         return render_template('redefinicao_senha.html')
 
     except Exception as e:
-        # Trate ou registre o erro conforme necessário
-        print(f"Erro na rota /atualizar_senha: {e}")
-        flash('Ocorreu um erro ao atualizar a senha.')
-        return render_template('redefinicao_senha.html')
+        mensagem_erro = "Ocorreu um erro ao processar a solicitação."
+        detalhes_erro = str(e)  # Converta o erro para uma string
+
+        flash(mensagem_erro)
+        return render_template('erro.html', mensagem=mensagem_erro, detalhes=detalhes_erro)
 
 
 #*ser = serial.Serial('/dev/ttyACM0', 9600)
