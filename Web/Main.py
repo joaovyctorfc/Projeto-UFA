@@ -3,7 +3,7 @@ import requests
 import json,re
 from Cadastrar import cadastrar 
 from flask_mail import Mail, Message
-import serial
+##import serial
 from flask import jsonify
 from flask_bcrypt import Bcrypt
 import random
@@ -152,7 +152,8 @@ def gerar_codigo():
 @app.route('/senha')
 def redefinicao_senha():
     try:
-        return render_template('Email.html')
+                 return render_template('Email.html')
+    
     except Exception as e:
         # Trate ou registre o erro conforme necessário
         print(f"Erro na rota /senha: {e}")
@@ -177,17 +178,19 @@ def enviar_codigo():
         msg = Message('Código de Confirmação', sender='reconviewads@gmail.com', recipients=[destinatario])
         msg.body = f'Seu código de confirmação é: {codigo}'
         mail.send(msg)
-
+        session['destinatario'] = destinatario
         return render_template('redefinicao_senha.html', destinatario=destinatario, codigo_enviado=True)
     
     except Exception as e:
         # Trate ou registre o erro conforme necessário
         print(f"Erro na rota /confirmacao: {e}")
         flash('Ocorreu um erro ao enviar o código de confirmação.', 'error')
+        return render_template('Email.html') 
    
-  
 
 def encontrar_usuario_por_email(email, link):
+  try:
+
     response = requests.get(f'{link}/users.json')
     data = response.json()
 
@@ -196,7 +199,16 @@ def encontrar_usuario_por_email(email, link):
             return key  # Retorna a chave (ID) do usuário no Firebase
 
     return None
-
+  except Exception as e:
+        # Trate ou registre o erro conforme necessário
+        print(f"Erro na rota /confirmacao: {e}")
+        flash('Ocorreu um erro ao enviar o código de confirmação.', 'error')
+        return render_template('Email.html') 
+@app.route('/logout')
+def logout():
+    # Remove o destinatário da sessão ao clicar em "Sair"
+    session.pop('destinatario', None)
+    return redirect('/')
 @app.route('/atualizar_senha', methods=['POST'])
 def atualizar_senha():
     try:
@@ -204,7 +216,7 @@ def atualizar_senha():
         codigo = request.form['codigo']
         nova_senha = request.form['novaSenha']
         senha_confirmacao = request.form.get('senha1')  # Nova variável para a senha de confirmação
-
+        destinatario = session.get('destinatario')
         pasta_do_destinatario = encontrar_usuario_por_email(destinatario, link)
 
         response = requests.get(f'{link}/users.json')
@@ -218,13 +230,12 @@ def atualizar_senha():
                 senha_criptografada = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
                 dados = {'senha': senha_criptografada}
                 requests.patch(f'{link}/users/{pasta_do_destinatario}/.json', data=json.dumps(dados))
+                session.pop('destinatario', None)
                 flash( 'Senha atualizada com sucesso!')
             elif nova_senha!= senha_confirmacao:
                 flash('As senhas não coincidem.')
-                return render_template('redefinicao_senha.html')
             else:
-                flash ('Código incorreto. Mande novamente o código.')
-                return render_template('redefinicao_senha.html')
+                flash ('Código incorreto.')
 
         else:
              flash ( 'Email não encontrado.')
@@ -237,16 +248,16 @@ def atualizar_senha():
         return render_template('redefinicao_senha.html')
 
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
+##ser = serial.Serial('/dev/ttyACM0', 9600)
 
-@app.route('/api', methods=['GET'])
-def obter_dados():
+##@app.route('/api', methods=['GET'])
+##def obter_dados():
     # Lê uma linha da porta serial
-    linha = ser.readline()
+   ## linha = ser.readline()
     
-    linha_decodificada = linha.decode('utf-8').strip()
+    ##linha_decodificada = linha.decode('utf-8').strip()
     
     # Retorna os dados como JSON
-    return jsonify({'dados': linha_decodificada})
+  ##  return jsonify({'dados': linha_decodificada})
 if __name__ == "__main__":
     app.run(debug=True)
