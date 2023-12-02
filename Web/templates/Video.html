@@ -127,8 +127,8 @@ function loadVideosByDateTime() {
 
                 var downloadButton1 = document.createElement("button");
                 downloadButton1.textContent = "Deletar";
-                downloadButton1.classList.add("btn", "btn-primary");
-                downloadButton1.marginLeft="-150px";
+                downloadButton1.classList.add("btn", "btn-secondary");
+                downloadButton1.marginRight="-150px";
 
                 downloadButton.addEventListener('click', function () {
                     downloadSingleVideo(videoUri);
@@ -142,9 +142,10 @@ function loadVideosByDateTime() {
 
                 colDiv.appendChild(videoElement);
                 colDiv.appendChild(downloadButton);
-                colDiv.appendChild(downloadButton1);
 
                 colDiv.appendChild(dateText);
+                colDiv.appendChild(downloadButton1);
+
                 rowDiv.appendChild(colDiv);
 
                 videos.push({
