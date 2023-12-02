@@ -118,22 +118,32 @@ function loadVideosByDateTime() {
                 videoElement.style.display = "block";
                 videoElement.style.marginTop = "50px";
                 videoElement.classList.add("video-with-border");
+                videoElement.setAttribute("data-video-url", videoUri);
 
                 var downloadButton = document.createElement("button");
                 downloadButton.textContent = "Download";
                 downloadButton.classList.add("btn", "btn-primary");
                 downloadButton.marginLeft="-150px";
 
+                var downloadButton1 = document.createElement("button");
+                downloadButton1.textContent = "Deletar";
+                downloadButton1.classList.add("btn", "btn-primary");
+                downloadButton1.marginLeft="-150px";
+
                 downloadButton.addEventListener('click', function () {
                     downloadSingleVideo(videoUri);
                 });
-
+                downloadButton1.addEventListener('click', function () {
+                    deletedSingleVideo(videoUri);
+                });
                 var dateText = document.createElement("span");
                 dateText.textContent = "Data e Hora: " + childData.date;
                     dateText.style.color = "white";
 
                 colDiv.appendChild(videoElement);
                 colDiv.appendChild(downloadButton);
+                colDiv.appendChild(downloadButton1);
+
                 colDiv.appendChild(dateText);
                 rowDiv.appendChild(colDiv);
 
@@ -180,11 +190,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function downloadSingleVideo(videoUri) {
     console.log(videoUri);
-
-
 }
 
+function deletedSingleVideo(videoUri) {
+    var videoElements = document.querySelectorAll('video[data-video-url="' + videoUri + '"]');
+    videoElements.forEach(function(videoElement) {
+        var videoDiv = videoElement.parentNode;
+        videoDiv.parentNode.removeChild(videoDiv);
+    });}
 
+
+
+
+   
+
+function deletedSingleVideo(videoUri) {
+    var videoElements = document.querySelectorAll('video[data-video-url="' + videoUri + '"]');
+
+    var videoRef = messagesRef.orderByChild('imageurl').equalTo(videoUri);
+    videoElements.forEach(function(videoElement) {
+        var videoDiv = videoElement.parentNode;
+        videoDiv.parentNode.removeChild(videoDiv);
+    });
+    videoRef.once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            childSnapshot.ref.remove()
+                .then(function() {
+                    console.log("Vídeo removido do banco de dados com sucesso!");
+                })
+                .catch(function(error) {
+                    console.error("Erro ao remover vídeo do banco de dados: ", error);
+                });
+        });
+    });}
+    
 
 
 
